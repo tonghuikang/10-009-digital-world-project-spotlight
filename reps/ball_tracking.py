@@ -24,27 +24,24 @@ greenLower = (29, 86, 6)
 greenUpper = (64, 255, 255)
 pts = deque(maxlen=args["buffer"])
 
-## if a video path was not supplied, grab the reference
-## to the webcam
-#if not args.get("video", False):
-#    camera = cv2.VideoCapture(0)
-#
-## otherwise, grab a reference to the video file
-#else:
-#    camera = cv2.VideoCapture(args["video"])
+# if a video path was not supplied, grab the reference
+# to the webcam
+if not args.get("video", False):
+	camera = cv2.VideoCapture(0)
 
-from tlkh_camera import PiVideoStream
-camera = PiVideoStream().start()
+# otherwise, grab a reference to the video file
+else:
+	camera = cv2.VideoCapture(args["video"])
 
 # keep looping
 while True:
 	# grab the current frame
-	frame = camera.read()
+	(grabbed, frame) = camera.read()
 
 	# if we are viewing a video and we did not grab a frame,
 	# then we have reached the end of the video
-#    if args.get("video") and not grabbed:
-#        break
+	if args.get("video") and not grabbed:
+		break
 
 	# resize the frame, blur it, and convert it to the HSV
 	# color space
