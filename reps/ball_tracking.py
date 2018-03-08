@@ -39,6 +39,7 @@ pts = deque(maxlen=args["buffer"])
 
 camera = PiVideoStream().start()
 
+import time
 time.sleep(1.0)
 
 # keep looping
