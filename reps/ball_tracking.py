@@ -11,7 +11,7 @@ import cv2
 
 cv2.setUseOptimized(True)
 
-from camera import PiVideoStream
+from tlkh_camera import PiVideoStream
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
