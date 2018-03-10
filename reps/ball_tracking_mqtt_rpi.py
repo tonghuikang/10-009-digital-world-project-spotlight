@@ -113,7 +113,7 @@ while True:
     
     # update the points queue
     pts.appendleft(center)
-    client.publish("test2", x)
+    client.publish("test2", "".join([str(x),",",str(y)]))
 
     # loop over the set of tracked points
     for i in xrange(1, len(pts)):

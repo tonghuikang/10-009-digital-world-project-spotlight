@@ -21,5 +21,5 @@ client.subscribe("house/bulbs/bulb1")
 client.subscribe("test2")
 print("Publishing message to topic","house/bulbs/bulb1")
 client.publish("house/bulbs/bulb1","OFF")
-time.sleep(4) # wait
+time.sleep(100) # wait
 client.loop_stop() #stop the loop
