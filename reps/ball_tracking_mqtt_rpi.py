@@ -15,7 +15,7 @@ def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to broker")
         global Connected
-            Connected = True
+        Connected = True
     else:
         print("Connection failed")
 
@@ -111,9 +111,8 @@ while True:
 			cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
 	# update the points queue
-	pts.appendleft(center)
-
-    client.publish("test2", (x,y))
+    pts.appendleft(center)
+    client.publish("test2", x)
 
 	# loop over the set of tracked points
 	for i in xrange(1, len(pts)):
