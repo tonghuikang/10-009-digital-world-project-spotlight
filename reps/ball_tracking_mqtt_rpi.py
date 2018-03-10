@@ -8,6 +8,26 @@ import numpy as np
 import argparse
 import imutils
 import cv2
+import paho.mqtt.client as mqttClient
+
+
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print("Connected to broker")
+        global Connected
+            Connected = True
+    else:
+        print("Connection failed")
+
+Connected = False
+
+broker_address = "35.197.131.13"
+port = 8883
+
+client = mqttClient.Client("Python")
+client.username_pw_set("sammy", password="password") #set usrnm and pwd
+client.on_connect = on_connect #attach function to callback
+client.connect(broker_address, port=port)
 
 cv2.setUseOptimized(True)
 
@@ -92,6 +112,8 @@ while True:
 
 	# update the points queue
 	pts.appendleft(center)
+
+    client.publish("test2", (x,y))
 
 	# loop over the set of tracked points
 	for i in xrange(1, len(pts)):
