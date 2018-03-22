@@ -24,6 +24,7 @@ class MySMClass(sm.SM):
         right = ground[1]
         print(left,right)
         
+        next_state = 0.1,0.0,False
         if wall:
             if left > 200 and right > 200: # both white
                 return next_state, io.Action(fv=0.03, rv=1)
