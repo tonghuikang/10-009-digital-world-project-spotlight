@@ -8,7 +8,7 @@ def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to broker")
         global Connected
-            Connected = True
+        Connected = True
     else:
         print("Connection failed")
 
