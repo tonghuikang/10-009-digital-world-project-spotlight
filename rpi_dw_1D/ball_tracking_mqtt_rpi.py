@@ -79,7 +79,8 @@ while True:
     frame = imutils.resize(frame, width=600)
     # blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-
+    #print(np.shape(hsv))
+    #print(np.sum(np.sum(hsv[:,:,2])))
     # construct a mask for the color "green", then perform
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
@@ -112,8 +113,11 @@ while True:
             cv2.circle(frame, (int(x), int(y)), int(radius),
                 (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
-            print(Connected)
-            client.publish("test2","{:.2f},{:.2f},{:d}".format(x,y,50))
+            
+            general_brightness = np.sum(np.sum(hsv[:,:,2]))/34560000.
+            upload_string = "{:.2f},{:.2f},{:4f}".format(x,y,general_brightness)
+            # print(Connected)
+            client.publish("test2",upload_string)
             sleep(0.1)
     
     # update the points queue
