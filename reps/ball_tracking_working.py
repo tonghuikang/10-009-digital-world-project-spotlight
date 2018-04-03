@@ -113,7 +113,7 @@ while True:
                 (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
             print(Connected)
-            client.publish("test2","{:.2f},{:.2f},{:d}".format(x,y,50))
+            client.publish("test2","something")
             sleep(0.1)
     
     # update the points queue
