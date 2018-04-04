@@ -114,8 +114,8 @@ while True:
                 (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
             
-            general_brightness = np.sum(np.sum(hsv[:,:,2]))/34560000.
-            upload_string = "{:.2f},{:.2f},{:4f}".format(x,y,general_brightness)
+            general_brightness = np.sum(np.sum(hsv[:,:,2]))/345600.
+            upload_string = "{},{},{:2f}".format(int(x),int(y),general_brightness)
             # print(Connected)
             client.publish("test2",upload_string)
             sleep(0.1)
