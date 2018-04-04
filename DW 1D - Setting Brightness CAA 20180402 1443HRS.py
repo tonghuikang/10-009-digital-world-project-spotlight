@@ -46,14 +46,14 @@ x - camera
 O - Origin (0,0) is top left
 '''
 #coordinates of the LEDS from 0-255 board
-p1 = LED_coord(63,63,19)   #top left
-p2 = LED_coord(63,127,5)   #top mid
-p3 = LED_coord(63,191,13)  #top right
-p4 = LED_coord(127,63,26)  #mid left
-p5 = LED_coord(127,191,12) #mid right
-p6 = LED_coord(191,63,21)  #bottom left
-p7 = LED_coord(191,127,20) #bottom mid
-p8 = LED_coord(191,191,16) #bottom right
+p1 = LED_coord(112,75,19)   #top left
+p2 = LED_coord(112,150,5)   #top mid
+p3 = LED_coord(112,225,13)  #top right
+p4 = LED_coord(225,75,26)  #mid left
+p5 = LED_coord(225,225,12) #mid right
+p6 = LED_coord(337,75,21)  #bottom left
+p7 = LED_coord(337,150,20) #bottom mid
+p8 = LED_coord(337,225,16) #bottom right
 led_list = [p1,p2,p3,p4,p5,p6,p7,p8]
 
 '''#########################
@@ -74,7 +74,7 @@ def choose_led(person):
     led_used = [0,0,0,0,0,0,0,0]
     for led in led_list:
         distance = sqrt((person.x - led.x)**2 + (person.y - led.y)**2)
-        if distance <= 91:
+        if distance <= 270:
             distances.append((led,distance))
             led_used[led_list.index(led)] = 1
             print('Chose {}, {} from person'.format(led,round(distance,1)))
@@ -140,7 +140,7 @@ def on_message(client, userdata, message):
 broker_address="35.197.131.13"
 port = 8883
 print("Creating new instance")
-client = mqtt.Client("P1") #create new instance
+client = mqtt.Client("random") #create new instance
 client.username_pw_set("sammy","password")
 client.on_message=on_message #attach function to callback
 print("Connecting to broker")
@@ -148,7 +148,7 @@ client.connect(broker_address, port=port) #connect to broker
 
 #actual loop for receiving info
 client.loop_start()
-client.subscribe("loc")
+client.subscribe("test2")
 time.sleep(100) #run loop for 100s, need to find out how to let it run forever
 client.loop_stop()
 GPIO.cleanup()

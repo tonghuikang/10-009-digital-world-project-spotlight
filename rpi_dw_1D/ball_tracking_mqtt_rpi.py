@@ -30,7 +30,7 @@ client.username_pw_set("sammy", password="password") #set usrnm and pwd
 client.on_connect = on_connect #attach function to callback
 client.connect(broker_address, port=port)
 
-client.publish("test2","something")
+#client.publish("test2","something")
 
 cv2.setUseOptimized(True)
 
@@ -117,8 +117,9 @@ while True:
             general_brightness = np.sum(np.sum(hsv[:,:,2]))/345600.
             upload_string = "{},{},{:2f}".format(int(x),int(y),general_brightness)
             # print(Connected)
+            print(upload_string)
             client.publish("test2",upload_string)
-            sleep(0.1)
+            sleep(5)
     
     # update the points queue
     pts.appendleft(center)
