@@ -9,7 +9,7 @@ firebase=firebase.FirebaseApplication(url,token)
 GPIO.setmode(GPIO.BCM)
 ledcolor={'yellow':20, 'red':21}
 
-GPIO.setup(ledcolor.values(), GPIO.OUT)
+GPIO.setup([20, 21], GPIO.OUT)
 
 # =============================================================================
 # def set_led(ledno, status):
@@ -19,10 +19,14 @@ GPIO.setup(ledcolor.values(), GPIO.OUT)
 
 while True:
     if firebase.get("/red_led_status") == "down":
-        GPIO.output(21, GPIO.high)
+        print(20)
+        GPIO.output(21, GPIO.HIGH)
     elif firebase.get("/red_led_status") == "normal":
-        GPIO.output(21, GPIO.low)
+        print(30)
+        GPIO.output(21, GPIO.LOW)
     if firebase.get("/yellow_led_status") == "down":
-        GPIO.output(20, GPIO.high)
+        print(40)
+        GPIO.output(20, GPIO.HIGH)
     elif firebase.get("/yellow_led_status") == "normal":
-        GPIO.output(20, GPIO.low)
+        GPIO.output(20, GPIO.LOW)
+        print(50)
