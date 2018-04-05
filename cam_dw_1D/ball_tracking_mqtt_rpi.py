@@ -119,7 +119,7 @@ while True:
             # print(Connected)
             print(upload_string)
             client.publish("test2",upload_string)
-            sleep(5)
+            sleep(0.1)
     
     # update the points queue
     pts.appendleft(center)
