@@ -8,9 +8,9 @@ def on_message(client, userdata, message):
  print("message qos=",message.qos)
  print("message retain flag=",message.retain)
  file = open("test.txt","w")
-  file.write(the_message)
-  file.close()
-  time.sleep(0.001)
+ file.write(the_message)
+ file.close()
+ time.sleep(0.001)
 ########################################
 broker_address="localhost"
 #broker_address="iot.eclipse.org"
