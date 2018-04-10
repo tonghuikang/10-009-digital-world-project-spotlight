@@ -23,8 +23,8 @@ client.connect(broker_address, port=port)
 
 import numpy as np
 while True:
-#    print(Connected)
-    client.publish("test2",
+    #print(Connected)
+    client.publish("loc",
                    ( str(int(250*np.random.uniform())) + ","
                    + str(int(250*np.random.uniform())) + ","
                    + str(int(100*np.random.uniform()))))
