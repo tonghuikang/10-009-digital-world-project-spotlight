@@ -838,33 +838,20 @@ Builder.load_string("""
 
 class screener(ScreenManager):
     
-    def __init__(self):
-        super(ScreenManager,self).__init__()
-        self.i0_ctrl = NumericProperty(1.0)
-        self.i1_ctrl = NumericProperty(1.0)
-        self.i2_ctrl = NumericProperty(1.0)
-        self.i3_ctrl = NumericProperty(1.0)
-        self.i4_ctrl = NumericProperty(1.0)
-        self.i5_ctrl = NumericProperty(1.0)
-        self.i6_ctrl = NumericProperty(1.0)
-        self.i7_ctrl = NumericProperty(1.0)
-        self.i8_ctrl = NumericProperty(1.0)
-        self.i9_ctrl = NumericProperty(1.0)
-        self.i10_ctrl = NumericProperty(1.0)
-        self.i11_ctrl = NumericProperty(1.0)
-        
-        self.adj_list = [self.i0_ctrl, self.i1_ctrl, self.i2_ctrl, self.i3_ctrl, self.i4_ctrl, self.i5_ctrl, self.i6_ctrl, self.i7_ctrl, self.i8_ctrl, self.i9_ctrl, self.i10_ctrl, self.i11_ctrl]
-
-        #setting up connection to Google Cloud
-        self.Connected = False
-        self.broker_address="35.197.131.13"
-        self.port = 8883
-        print("Creating new instance")
-        self.dw1d = mqtt.Client("DW1Dbetybhty")
-        self.dw1d.username_pw_set("sammy","password")  #set usernames and passwords
-        self.dw1d.on_connect = self.on_connect
-        print("Connecting to broker")
-        self.dw1d.connect(self.broker_address, port=self.port)   #connect to broker
+    i0_ctrl = NumericProperty(1.0)
+    i1_ctrl = NumericProperty(1.0)
+    i2_ctrl = NumericProperty(1.0)
+    i3_ctrl = NumericProperty(1.0)
+    i4_ctrl = NumericProperty(1.0)
+    i5_ctrl = NumericProperty(1.0)
+    i6_ctrl = NumericProperty(1.0)
+    i7_ctrl = NumericProperty(1.0)
+    i8_ctrl = NumericProperty(1.0)
+    i9_ctrl = NumericProperty(1.0)
+    i10_ctrl = NumericProperty(1.0)
+    i11_ctrl = NumericProperty(1.0)
+    
+    adj_list = [i0_ctrl, i1_ctrl, i2_ctrl, i3_ctrl, i4_ctrl, i5_ctrl, i6_ctrl, i7_ctrl, i8_ctrl, i9_ctrl, i10_ctrl, i11_ctrl]
 
 
     def start_stop(self):
@@ -905,7 +892,7 @@ class screener(ScreenManager):
 
     # Publishing
     def send_adj_list(self):
-        self.dw1d.publish("adj_list", str(adj_list))
+        self.dw1d.publish("adj_list", str(self.adj_list))
         
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -915,7 +902,16 @@ class screener(ScreenManager):
         else:
              print("Connection failed")
     
-
+    #setting up connection to Google Cloud
+    Connected = False
+    broker_address="35.197.131.13"
+    port = 8883
+    print("Creating new instance")
+    dw1d = mqtt.Client("DW1Dbetybhty")
+    dw1d.username_pw_set("sammy","password")  #set usernames and passwords
+    dw1d.on_connect = on_connect
+    print("Connecting to broker")
+    dw1d.connect(broker_address, port=port)   #connect to broker
 
 # =============================================================================
 #     def get_rt_stat_i0(self):
