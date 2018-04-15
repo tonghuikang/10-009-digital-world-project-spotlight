@@ -70,6 +70,7 @@ def get_obj_position_and_brightness():
     center = None
     
     x,y = 0,0
+    general_brightness = 0.
 
     # only proceed if at least one contour was found
     if len(cnts) > 0:
@@ -106,12 +107,11 @@ def get_obj_position_and_brightness():
             thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
             cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
-        # show the frame to our screen
-        cv2.imshow("Frame", frame)
+
     
-    person = Target(int(x), int(y))
-    print('Person is at {}; brightness is {}'.format(person, general_brightness))
-    return person, general_brightness
+        person = Target(int(x), int(y))
+        print('Person is at {}; brightness is {}'.format(person, general_brightness))
+        return person, general_brightness
 
 '''============================================== Setting up the LED control'''
 #set up coordinate system
@@ -150,7 +150,7 @@ led_list = [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12]
 
 '''======================================================= Reading text file'''
 #directory of text file receiving adj_list data
-txt = 'txt'
+txt = '/home/pi/Desktop/adjlist.txt'
 
 def get_adj_list():
     f = open(txt, 'r')
@@ -182,23 +182,28 @@ def decide_brightness():
     check_usage = ''
     for led in led_list:
         #alter dist attribute
+        print("calculating dist")
         led.dist = ( (person.x - led.x)**2 + (person.y - led.y)**2 )**0.5
         #alter duty attribute
+        print("calculating power1")
         power1 = (100 - brightness) * led.userpref  #factoring user pref
         if led.dist < 165:    #--------------LED is at most diagonally adjacent
             mult = ( (165 - led.dist) / 165 )**0.25
             led.duty = power1 * mult
             check_usage += '{},'.format(led.duty / 100)
+            print("check usage added")
         else:    #---------------------------LED is too far away, do not use
             led.duty = 0
             check_usage += '0,'
+            print("check usage 0")
         check_usage.rstrip(',')
+    print(check_usage)
     
     #for publishing and debugging==============================================
     print('LED usage: {}'.format(check_usage))
     dw1d.publish("duty_list", str(check_usage))
     #==========================================================================
-
+'''
 #activate LEDs according to duty cycle assigned
 def activate_led():
     GPIO.setmode(GPIO.BCM)
@@ -209,7 +214,7 @@ def activate_led():
         pwm_led.start(100)
         pwm_led.ChangeDutyCycle(led.duty)
     GPIO.cleanup()
-
+'''
 '''============================================================================
            Part III: Actual Operation & Publishing to Google Cloud
 ============================================================================'''
@@ -233,8 +238,12 @@ print("Connecting to broker")
 dw1d.connect(broker_address, port=port)   #connect to broker
 
 while True:
-    decide_brightness()
-    activate_led()
+    try:
+        decide_brightness()
+        #activate_led()
+        sleep(1)
+    except TypeError:
+        sleep(1)
 
 #cleanup
 print("Stopping camera")
