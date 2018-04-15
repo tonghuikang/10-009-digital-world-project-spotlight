@@ -839,6 +839,7 @@ Builder.load_string("""
 class screener(ScreenManager):
     
     def __init__(self):
+        super(ScreenManager,self).__init__()
         self.i0_ctrl = NumericProperty(1.0)
         self.i1_ctrl = NumericProperty(1.0)
         self.i2_ctrl = NumericProperty(1.0)
