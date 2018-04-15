@@ -9,7 +9,7 @@ to a text file, which is then read by the main
 script to perform the LED operations.
 '''
 #directory of text file receiving duty_list data
-txt = '/home/pi/Desktop/duty_list.txt'
+txt = 'duty_list.txt'
 
 #import statements
 import paho.mqtt.client as mqttClient #import the client1 for Google cloud
