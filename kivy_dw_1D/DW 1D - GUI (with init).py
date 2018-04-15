@@ -907,7 +907,7 @@ class screener(ScreenManager):
     broker_address="35.197.131.13"
     port = 8883
     print("Creating new instance")
-    dw1d = mqtt.Client("DW1Dbetybhty")
+    dw1d = mqtt.Client("DW1Dadjpub")
     dw1d.username_pw_set("sammy","password")  #set usernames and passwords
     dw1d.on_connect = on_connect
     print("Connecting to broker")

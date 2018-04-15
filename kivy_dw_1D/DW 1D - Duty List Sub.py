@@ -32,7 +32,7 @@ def on_message(client, userdata, message):
 broker_address="35.197.131.13"
 port = 8883
 print("Creating new instance")
-dw1d = mqttClient.Client("DW1D")
+dw1d = mqttClient.Client("DW1Ddutysub")
 dw1d.username_pw_set("sammy","password")  #set usernames and passwords
 dw1d.on_message = on_message              #attach functions to callback
 print("Connecting to broker")
