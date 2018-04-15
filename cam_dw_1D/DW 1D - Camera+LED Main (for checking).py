@@ -24,6 +24,12 @@ import cv2
 from time import sleep
 #import RPi.GPIO as GPIO
 
+class Target: #for person
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+    def __str__(self):
+        return '({},{})'.format(self.x, self.y)
 '''=================================================== Setting up the camera'''
 cv2.setUseOptimized(True) #OpenCV
 
@@ -106,21 +112,14 @@ def get_obj_position_and_brightness():
             # draw the connecting lines
             thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
             cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
-
-
-    
+  
         person = Target(int(x), int(y))
         print('Person is at {}; brightness is {}'.format(person, general_brightness))
         return person, general_brightness
 
 '''============================================== Setting up the LED control'''
 #set up coordinate system
-class Target: #for person
-    def __init__(self, x=0, y=0):
-        self.x = x
-        self.y = y
-    def __str__(self):
-        return '({},{})'.format(self.x, self.y)
+
 
 class LED_coord: #for LEDs
     def __init__(self, x, y, pin, userpref = 0.8):
@@ -172,7 +171,7 @@ def decide_brightness():
     
     #alter base attribute of LEDs
     for i in range(len(led_list)):
-        led_list[i].userpref = adj_list[i]
+        led_list[i].userpref = float(adj_list[i])
     #for debugging=============================================================
     check_userpref = [led.userpref for led in led_list]
     print('LED adjustments: {}'.format(check_userpref))
@@ -182,13 +181,11 @@ def decide_brightness():
     check_usage = ''
     for led in led_list:
         #alter dist attribute
-        print("calculating dist")
         led.dist = ( (person.x - led.x)**2 + (person.y - led.y)**2 )**0.5
         #alter duty attribute
-        print("calculating power1")
-        power1 = (100 - brightness) * led.userpref  #factoring user pref
+        power1 = (100. - brightness) * led.userpref  #factoring user pref
         if led.dist < 165:    #--------------LED is at most diagonally adjacent
-            mult = ( (165 - led.dist) / 165 )**0.25
+            mult = ((165-led.dist)/165)**0.25
             led.duty = power1 * mult
             check_usage += '{},'.format(led.duty / 100)
             print("check usage added")
@@ -231,19 +228,16 @@ Connected = False
 broker_address="35.197.131.13"
 port = 8883
 print("Creating new instance")
-dw1d = mqttClient.Client("DW1D")
+dw1d = mqttClient.Client("DW1DW1D")
 dw1d.username_pw_set("sammy","password")  #set usernames and passwords
 dw1d.on_connect = on_connect
 print("Connecting to broker")
 dw1d.connect(broker_address, port=port)   #connect to broker
 
 while True:
-    try:
-        decide_brightness()
-        #activate_led()
-        sleep(1)
-    except TypeError:
-        sleep(1)
+    decide_brightness()
+    #activate_led()
+    sleep(1)
 
 #cleanup
 print("Stopping camera")
