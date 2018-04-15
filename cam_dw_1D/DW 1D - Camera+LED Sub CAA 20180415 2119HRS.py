@@ -12,7 +12,7 @@ script to perform the LED operations.
 txt = '/home/pi/Desktop/adj_list.txt'
 
 #import statements
-import paho.mqtt.client as mqttClient #import the client1 for Google cloud
+import paho.mqtt.client as mqttClient #import the client for Google cloud
 from time import sleep
 
 #write received data in a text file

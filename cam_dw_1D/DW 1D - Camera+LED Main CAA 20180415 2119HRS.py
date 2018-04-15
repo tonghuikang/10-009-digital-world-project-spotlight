@@ -14,7 +14,7 @@ be displayed on the Kivy app.
 '''============================================================================
                          Part I: Initialise program
 ============================================================================'''
-import paho.mqtt.client as mqttClient #import the client1 for Google cloud
+import paho.mqtt.client as mqttClient #import the client for Google cloud
 from collections import deque
 import numpy as np
 import argparse
@@ -118,13 +118,13 @@ def get_obj_position_and_brightness():
         #cv2.imshow("Frame", frame)
     
         person = Target(int(x), int(y))
-        print('Person is at {}; brightness is {}'.format(person, general_brightness))
+        print('Person is at {}; brightness is {:.3f}'.format(person, general_brightness))
         return person, general_brightness
 
 '''============================================== Setting up the LED control'''
 #set up coordinate system for LEDs
 class LED_coord:
-    def __init__(self, x, y, pin, userpref = 0.8):
+    def __init__(self, x, y, pin, userpref=0.8):
         self.x = x
         self.y = y
         self.pin = pin           #GPIO pin number
@@ -196,7 +196,7 @@ def decide_brightness():
         check_usage.rstrip(',')
     
     #for publishing and debugging==============================================
-    print('LED usage: {}'.format(check_usage))
+    print('LED duty (published): {}'.format(check_usage))
     dw1d.publish("duty_list", str(check_usage))
     #==========================================================================
 
@@ -234,9 +234,15 @@ print("Connecting to broker")
 dw1d.connect(broker_address, port=port)   #connect to broker
 
 while True:
-    decide_brightness()
-    #activate_led()
-    sleep(1)
+    if KeyboardInterrupt:
+        break
+    else:
+        try:
+            decide_brightness()
+            #activate_led()
+            sleep(1)
+        except:
+            sleep(0.1)
 
 #cleanup
 print("Stopping camera")
