@@ -97,7 +97,7 @@ def get_obj_position_and_brightness():
                 (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
             
-            general_brightness = np.sum(np.sum(hsv[:,:,2]))/345600.
+            general_brightness = float(np.sum(np.sum(hsv[:,:,2]))/345600.)
             sleep(0.1)
         
         # update the points queue
@@ -151,7 +151,7 @@ led_list = [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12]
 
 '''======================================================= Reading text file'''
 #directory of text file receiving adj_list data
-txt = '/home/pi/Desktop/adj_list.txt'
+txt = '/home/pi/Desktop/adjlist.txt'
 
 def get_adj_list():
     f = open(txt, 'r')
@@ -173,7 +173,7 @@ def decide_brightness():
     
     #alter base attribute of LEDs
     for i in range(len(led_list)):
-        led_list[i].userpref = adj_list[i]
+        led_list[i].userpref = float(adj_list[i])
     #for debugging=============================================================
     check_userpref = [led.userpref for led in led_list]
     print('LED adjustments: {}'.format(check_userpref))
@@ -234,20 +234,17 @@ print("Connecting to broker")
 dw1d.connect(broker_address, port=port)   #connect to broker
 
 while True:
-    if KeyboardInterrupt:
-        break
-    else:
-        try:
-            decide_brightness()
-            #activate_led()
-            sleep(1)
-        except:
-            sleep(0.1)
+    try:
+        decide_brightness()
+        #activate_led()
+        sleep(1)
+    except:
+        sleep(0.1)
 
 #cleanup
 print("Stopping camera")
 cv2.destroyAllWindows()
 camera.stop()
 print("Cleaning GPIO")
-GPIO.cleanup()
+#GPIO.cleanup()
 print("=== END ===")

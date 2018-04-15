@@ -9,7 +9,7 @@ to a text file, which is then read by the main
 script to perform the LED operations.
 '''
 #directory of text file receiving adj_list data
-txt = '/home/pi/Desktop/adj_list.txt'
+txt = '/home/pi/Desktop/adjlist.txt'
 
 #import statements
 import paho.mqtt.client as mqttClient #import the client for Google cloud
