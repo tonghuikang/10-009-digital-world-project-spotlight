@@ -20,10 +20,6 @@ Config.set('graphics', 'width', '800')
 Config.set('graphics', 'height', '480')
 Config.write()
 
-url = "https://dw2018-1d-project.firebaseio.com/"
-secret = 'mwS8gxOh624P4fJ0FR1BUOTPEqFjIMkvnnOni9RL'
-fire = firebase.FirebaseApplication(url, secret)
-
 Builder.load_string("""
 #: import FadeTransition kivy.uix.screenmanager.FadeTransition
 <screener>
@@ -865,7 +861,7 @@ class screener(ScreenManager):
         print("Creating new instance")
         self.dw1d = mqtt.Client("DW1Dbetybhty")
         self.dw1d.username_pw_set("sammy","password")  #set usernames and passwords
-        self.dw1d.on_connect = on_connect
+        self.dw1d.on_connect = self.on_connect
         print("Connecting to broker")
         self.dw1d.connect(self.broker_address, port=self.port)   #connect to broker
 
