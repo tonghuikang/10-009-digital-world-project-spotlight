@@ -118,7 +118,7 @@ def get_obj_position_and_brightness():
         #cv2.imshow("Frame", frame)
     
         person = Target(int(x), int(y))
-        print('Person is at {}; brightness is {:.3f}'.format(person, general_brightness))
+        print('\nPerson is at {}; brightness is {:.2f}'.format(person, general_brightness))
         return person, general_brightness
 
 '''============================================== Setting up the LED control'''
@@ -135,19 +135,23 @@ class LED_coord:
         return 'LED ({},{}), GPIO pin {}'.format(self.x, self.y, self.pin)
 
 #set LED coordinates
-p1 = LED_coord(120,112,19)         #   legend  # - LED
-p2 = LED_coord(240,112,5)          #           x - camera (600 x 450 px)
-p3 = LED_coord(360,112,13)         #   origin O-------------------+ 0
-p4 = LED_coord(480,112,26)         #          |   |   |   |   |   |
-p5 = LED_coord(120,225,12)         #          |--1#--2#--3#--4#---| 112
-p6 = LED_coord(240,225,21)         #          |   |   |   |   |   |
-p7 = LED_coord(360,225,20)         #          |--5#--6#-x7#--8#---| 225
-p8 = LED_coord(480,225,16)         #          |   |   |   |   |   |
-p9 = LED_coord(120,338,6)          #          |--9#-10#-11#-12#---| 338
-p10 = LED_coord(240,338,7)         #          |   |   |   |   |   |
-p11 = LED_coord(360,338,8)         #          +-------------------+ 450
-p12 = LED_coord(480,338,9)         #          0  120 240 360 480 600
-led_list = [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12]
+'''
+@-------------------+ 0     legend:
+|   |   |   |   |   |       @ - origin
+|--1#--2#--3#--4#---| 112   # - LED
+|   |   |   |   |   |       x - camera (600 x 450 px)
+|--5#--6#-x7#--8#---| 225
+|   |   |   |   |   |
+|--9#-10#-11#-12#---| 338
+|   |   |   |   |   |
++-------------------+ 450
+0  120 240 360 480 600
+       
+LED no.    1   2   3   4   5   6   7   8   9   10  11  12'''
+led_x =   [120,240,360,480,120,240,360,480,120,240,360,480]
+led_y =   [112,112,112,112,225,225,225,225,338,338,338,338]
+led_pin = [19, 5,  13, 26, 12, 21, 20, 16, 6,  7,  8,  9]
+led_list = [LED_coord(led_x[i],led_y[i],led_pin[i]) for i in range(12)]
 
 '''======================================================= Reading text file'''
 #directory of text file receiving adj_list data
@@ -156,8 +160,7 @@ txt = '/home/pi/Desktop/adjlist.txt'
 def get_adj_list():
     f = open(txt, 'r')
     reading = f.readline()
-    print('Received adj_list: {}'.format(reading))
-    adj_list = reading.split(',')
+    adj_list = [round(float(item),2) for item in reading.split(',')]
     f.close()
     return adj_list
 
@@ -174,13 +177,10 @@ def decide_brightness():
     #alter base attribute of LEDs
     for i in range(len(led_list)):
         led_list[i].userpref = float(adj_list[i])
-    #for debugging=============================================================
-    check_userpref = [led.userpref for led in led_list]
-    print('LED adjustments: {}'.format(check_userpref))
-    #==========================================================================
+    print('Adjustments: {}'.format(adj_list))
     
     #determine duty cycle of LEDs
-    check_usage = ''
+    duty_str = ''
     for led in led_list:
         #alter dist attribute
         led.dist = ( (person.x - led.x)**2 + (person.y - led.y)**2 )**0.5
@@ -189,16 +189,15 @@ def decide_brightness():
         if led.dist < 165:    #--------------LED is at most diagonally adjacent
             mult = ( (165 - led.dist) / 165 )**0.25
             led.duty = power1 * mult
-            check_usage += '{},'.format(led.duty / 100)
+            duty_str += '{:.4f},'.format(led.duty / 100)
         else:    #---------------------------LED is too far away, do not use
             led.duty = 0
-            check_usage += '0,'
-        check_usage.rstrip(',')
+            duty_str += '0,'
+    duty_str = duty_str.rstrip(',') #remove extra comma
     
-    #for publishing and debugging==============================================
-    print('LED duty (published): {}'.format(check_usage))
-    dw1d.publish("duty_list", str(check_usage))
-    #==========================================================================
+    #publish duty_list to Google Cloud
+    print('LED duty (published): {}'.format(duty_str))
+    dw1d.publish("duty_list", duty_str)
 
 #activate LEDs according to duty cycle assigned
 def activate_led():
