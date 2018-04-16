@@ -22,14 +22,17 @@ Use an infrared (IR) camera to detect heat signatures and a visible light (VIS) 
 	Deactivate VIS camera; repeat
 
 # Characteristics
-Sustainable design – When our IR camera does not detect any changes to our target’s position, our VIS camera will not be switched on. Similarly, our IR camera itself will not be actuated perpetually, but on a 1:10 work-rest-cycle. 
-Affordable design – Our IR and VIS cameras are used for target acquisition and brightness analysis, both of which do not require high resolution images. Hence, our choice of camera will reflect as such in our budget. 
-Smart design – When room users disagree with our programmed desired light settings, we receive feedback in the form of them manually toggling the brightness. This user data is recorded and analysed to recalibrate a specific desired brightness by users of a particular room. 
+- Sustainable design – When our IR camera does not detect any changes to our target’s position, our VIS camera will not be switched on. Similarly, our IR camera itself will not be actuated perpetually, but on a 1:10 work-rest-cycle. 
+
+- Affordable design – Our IR and VIS cameras are used for target acquisition and brightness analysis, both of which do not require high resolution images. Hence, our choice of camera will reflect as such in our budget. 
+
+- Smart design – When room users disagree with our programmed desired light settings, we receive feedback in the form of them manually toggling the brightness. This user data is recorded and analysed to recalibrate a specific desired brightness by users of a particular room. 
 
 # Hardware Architecture
-The code exist on three places. One on the cloud, one of each RPi. 
+The code resides and run on three places. One on the cloud, one that receive camera input and controls the light, and another that allow the user to adjust his perferences. 
 
-TODO: Comms chart
+![alt text](https://i.imgur.com/UpOzcnt.png "Archi")
+
 
 ## Cloud Server
 The cloud server hosts communication between the user and the applicance. We preferred to use a publisher-subscriber instead of firebase because we require instant response between the user and the appliance.
@@ -47,7 +50,4 @@ In our demostration of the proof of concept, the person is represented by the Th
 Meanwhile, the RPi sends usage data for the user to visualise his usage, and also possibly for an algorithm to train itself to optimise settings for the user.
 
 ## Adjustment node
-The user can adjust the brightness of individual lights based on his preference. 
-In our demostration, the user can adjust the brightness of each individual lights using our inferface. 
-
-
+The user can adjust the brightness of individual lights based on his preferences. When the settings is finalised, the app will send the adjustment preference over the cloud to the change the brightness of the lights.
