@@ -40,6 +40,7 @@ dw1d.connect(broker_address, port=port)   #connect to broker
 
 #actual loop for receiving info
 dw1d.loop_start()
+print("Subscribed, waiting for message.")
 dw1d.subscribe("duty_list")
 sleep(10000000)
 dw1d.loop_stop()
