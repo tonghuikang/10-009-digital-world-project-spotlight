@@ -872,8 +872,6 @@ class screener(ScreenManager):
     
     adj_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     
-    def __init__(self):
-        super().__init__()
         
     def s0_func(self, *args):
         value = args[1]
