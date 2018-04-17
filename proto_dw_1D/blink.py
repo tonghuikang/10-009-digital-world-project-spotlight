@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 from time import sleep
-
+import time
 # Use the BCM GPIO numbers as the numbering scheme
 GPIO.setmode(GPIO.BCM)
 
@@ -16,6 +16,7 @@ for led in leds:
 GPIO.setup(switch, GPIO.IN, GPIO.PUD_DOWN)
 
 def blink(gpio_number, duration):
+    print(gpio_number)
     GPIO.output(gpio_number, GPIO.LOW)
     time.sleep(duration)
     GPIO.output(gpio_number, GPIO.HIGH)
