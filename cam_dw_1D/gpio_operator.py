@@ -18,7 +18,7 @@ import RPi.GPIO as GPIO
 pins = [5, 22, 27, 17]
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(led_pin, GPIO.OUT)
+GPIO.setup(pins, GPIO.OUT)
 
 '''============================================================================
                            Part II: LED Operation
