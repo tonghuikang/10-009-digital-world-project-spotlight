@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 pins = [21]
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(led_pin, GPIO.OUT)
+GPIO.setup(pins, GPIO.OUT)
 
 #activate LEDs according to duty cycle assigned
 def activate_led(duty_list):
