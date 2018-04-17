@@ -948,16 +948,7 @@ class screener(ScreenManager):
         line = txt_f.readline()
         txt_f.close()
         duty_val_raw = line.split(",")
-        '''
-        with open("log.txt","a+") as f:
-            f.write("a\n")
-            f.write(line)
-            f.write(str(type(line)))
-            f.write("b\n")
-            f.write(str(type(duty_val_raw)))
-            f.write(str(duty_val))
-            f.write("closing\n")
-        '''
+
         # normalize 0 - 1 to 0.1 - 1
         duty_val = []
         for val in duty_val_raw:
@@ -989,21 +980,20 @@ class screener(ScreenManager):
         self.ids.i10.color  = [1,1,1, (duty_val[10])]
         self.ids.b11.color  = [1,1,1, (duty_val[11])]
         self.ids.i11.color  = [1,1,1, (duty_val[11])]
-        '''
-        self.ids.rt_localstat1_l0.text   = "{}%".format(duty_val[0] * 100)
-        self.ids.rt_localstat1_l1.text   = "{}%".format(duty_val[1] * 100)
-        self.ids.rt_localstat1_l2.text   = "{}%".format(duty_val[2] * 100)
-        self.ids.rt_localstat1_l3.text   = "{}%".format(duty_val[3] * 100)
-        self.ids.rt_localstat1_l4.text   = "{}%".format(duty_val[4] * 100)
-        self.ids.rt_localstat1_l5.text   = "{}%".format(duty_val[5] * 100)
-        self.ids.rt_localstat1_l6.text   = "{}%".format(duty_val[6] * 100)
-        self.ids.rt_localstat1_l7.text   = "{}%".format(duty_val[7] * 100)
-        self.ids.rt_localstat1_l8.text   = "{}%".format(duty_val[8] * 100)
-        self.ids.rt_localstat1_l9.text   = "{}%".format(duty_val[9] * 100)
-        self.ids.rt_localstat1_l10.text  = "{}%".format(duty_val[10] * 100)
-        self.ids.rt_localstat1_l11.text  = "{}%".format(duty_val[11] * 100)
-        '''
-        """
+        
+        self.ids.rt_localstat1_l0.text   = "{}%".format(float(duty_val[0]) * 100)
+        self.ids.rt_localstat1_l1.text   = "{}%".format(float(duty_val[1]) * 100)
+        self.ids.rt_localstat1_l2.text   = "{}%".format(float(duty_val[2]) * 100)
+        self.ids.rt_localstat1_l3.text   = "{}%".format(float(duty_val[3]) * 100)
+        self.ids.rt_localstat1_l4.text   = "{}%".format(float(duty_val[4]) * 100)
+        self.ids.rt_localstat1_l5.text   = "{}%".format(float(duty_val[5]) * 100)
+        self.ids.rt_localstat1_l6.text   = "{}%".format(float(duty_val[6]) * 100)
+        self.ids.rt_localstat1_l7.text   = "{}%".format(float(duty_val[7]) * 100)
+        self.ids.rt_localstat1_l8.text   = "{}%".format(float(duty_val[8]) * 100)
+        self.ids.rt_localstat1_l9.text   = "{}%".format(float(duty_val[9]) * 100)
+        self.ids.rt_localstat1_l10.text  = "{}%".format(float(duty_val[10]) * 100)
+        self.ids.rt_localstat1_l11.text  = "{}%".format(float(duty_val[11]) * 100)
+        
         self.ids.rt_globalstat1_l00.text = "{}%".format(float_total)
         self.ids.rt_globalstat1_l0.text  = "{}%".format(float_total)
         self.ids.rt_globalstat1_l1.text  = "{}%".format(float_total)
@@ -1030,7 +1020,7 @@ class screener(ScreenManager):
         self.ids.rt_globalstat2_l9.text  = "{}".format(float_total)
         self.ids.rt_globalstat2_l10.text = "{}".format(float_total)
         self.ids.rt_globalstat2_l11.text = "{}".format(float_total)
-        """
+        
     # Publishing
     def send_adj_list(self):
         self.dw1d.publish("adj_list", str(self.adj_list).strip('[]'))
