@@ -225,7 +225,8 @@ dw1d.connect(broker_address, port=port)   #connect to broker
 
 #set up GPIO
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(led_pin, GPIO.OUT)
+for pin in led_pin:
+    GPIO.setup(pin, GPIO.OUT)
 
 while True:
     try:
