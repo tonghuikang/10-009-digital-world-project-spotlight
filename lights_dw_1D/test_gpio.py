@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 
 pins = [17, 22, 13, 21]
 
+GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pins, GPIO.OUT)
 
@@ -22,6 +23,5 @@ for i in range(len(duty_test)):
     activate_led(pins, duty_test[i])
 
 pwm = [GPIO.PWM(item, 50) for item in pins]
-pwm.stop()
 GPIO.cleanup()
 print("GPIO cleanup completed")
