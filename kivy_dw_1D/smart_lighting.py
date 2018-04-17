@@ -921,6 +921,8 @@ class screener(ScreenManager):
         
     def set_adj_val(self):
         init_adj_list = fire.get("/adj_list")
+        print(init_adj_list)
+        init_adj_list = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
         self.ids.s0.value  = init_adj_list[0]
         self.ids.s1.value  = init_adj_list[1]
         self.ids.s2.value  = init_adj_list[2]
@@ -933,7 +935,7 @@ class screener(ScreenManager):
         self.ids.s9.value  = init_adj_list[9]
         self.ids.s10.value = init_adj_list[10]
         self.ids.s11.value = init_adj_list[11]
-
+        
     def start_stop(self):
         Clock.schedule_interval(self.my_callback, 1)
         
@@ -945,15 +947,24 @@ class screener(ScreenManager):
         txt_f = open("/home/pi/thymio/kivy_dw_1D/duty_list.txt", "r")
         line = txt_f.readline()
         txt_f.close()
-        duty_val = line.split(",")
-        """
-        normalize 0 - 1 to 0.1 - 1
+        duty_val_raw = line.split(",")
+        '''
+        with open("log.txt","a+") as f:
+            f.write("a\n")
+            f.write(line)
+            f.write(str(type(line)))
+            f.write("b\n")
+            f.write(str(type(duty_val_raw)))
+            f.write(str(duty_val))
+            f.write("closing\n")
+        '''
+        # normalize 0 - 1 to 0.1 - 1
         duty_val = []
         for val in duty_val_raw:
             new_val = float(val)*0.9 + 0.1
             duty_val.append(new_val)
-        float_total = ( ( sum([float(x for x in duty_val_raw)]) / 12 ) * 100 )
-        """
+        float_total = ( ( sum([float(x) for x in duty_val_raw]) / 12 ) * 100 )
+        
         self.ids.b0.color   = [1,1,1, (duty_val[0])]
         self.ids.i0.color   = [1,1,1, (duty_val[0])]
         self.ids.b1.color   = [1,1,1, (duty_val[1])]
@@ -978,6 +989,7 @@ class screener(ScreenManager):
         self.ids.i10.color  = [1,1,1, (duty_val[10])]
         self.ids.b11.color  = [1,1,1, (duty_val[11])]
         self.ids.i11.color  = [1,1,1, (duty_val[11])]
+        '''
         self.ids.rt_localstat1_l0.text   = "{}%".format(duty_val[0] * 100)
         self.ids.rt_localstat1_l1.text   = "{}%".format(duty_val[1] * 100)
         self.ids.rt_localstat1_l2.text   = "{}%".format(duty_val[2] * 100)
@@ -990,6 +1002,7 @@ class screener(ScreenManager):
         self.ids.rt_localstat1_l9.text   = "{}%".format(duty_val[9] * 100)
         self.ids.rt_localstat1_l10.text  = "{}%".format(duty_val[10] * 100)
         self.ids.rt_localstat1_l11.text  = "{}%".format(duty_val[11] * 100)
+        '''
         """
         self.ids.rt_globalstat1_l00.text = "{}%".format(float_total)
         self.ids.rt_globalstat1_l0.text  = "{}%".format(float_total)
@@ -1017,8 +1030,7 @@ class screener(ScreenManager):
         self.ids.rt_globalstat2_l9.text  = "{}".format(float_total)
         self.ids.rt_globalstat2_l10.text = "{}".format(float_total)
         self.ids.rt_globalstat2_l11.text = "{}".format(float_total)
-        """    
-
+        """
     # Publishing
     def send_adj_list(self):
         self.dw1d.publish("adj_list", str(self.adj_list).strip('[]'))
