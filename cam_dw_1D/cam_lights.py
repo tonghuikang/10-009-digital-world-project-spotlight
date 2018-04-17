@@ -202,14 +202,13 @@ def decide_brightness():
 
 #activate LEDs according to duty cycle assigned
 def activate_led():
-    GPIO.setmode(GPIO.BCM)
+    GPIO.setmode(GPIO.BOARD)
     print('Activating LEDs')
     for led in led_list:
         GPIO.setup(led.pin, GPIO.OUT)
         pwm_led = GPIO.PWM(led.pin, 50)
-        pwm_led.start(100)
-        pwm_led.ChangeDutyCycle(led.duty)
-    GPIO.cleanup()
+        pwm_led.start(led.duty)
+    sleep(1)
 
 '''============================================================================
            Part III: Actual Operation & Publishing to Google Cloud
@@ -221,6 +220,11 @@ def on_connect(client, userdata, flags, rc):
          Connected = True
     else:
          print("Connection failed")
+
+def exit_cleanup():
+    cv2.destroyAllWindows()
+    camera.stop()
+    GPIO.cleanup()
 
 #setting up connection to Google Cloud
 Connected = False
@@ -236,15 +240,8 @@ dw1d.connect(broker_address, port=port)   #connect to broker
 while True:
     try:
         decide_brightness()
-        #activate_led()
-        sleep(1)
+        activate_led()
+    except KeyboardInterrupt:
+        exit_cleanup()
     except:
         sleep(0.1)
-
-#cleanup
-print("Stopping camera")
-cv2.destroyAllWindows()
-camera.stop()
-print("Cleaning GPIO")
-#GPIO.cleanup()
-print("=== END ===")
