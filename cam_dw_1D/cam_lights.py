@@ -203,7 +203,7 @@ def decide_brightness():
 #activate LEDs according to duty cycle assigned
 def activate_led():
     print('Activating LEDs')
-    for led in led_list:   
+    for led in led_list:
         pwm_led = GPIO.PWM(led.pin, 50)
         pwm_led.start(led.duty)
     sleep(1)
@@ -236,7 +236,7 @@ print("Connecting to broker")
 dw1d.connect(broker_address, port=port)   #connect to broker
 
 #set up GPIO
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
 
 while True:
@@ -245,5 +245,6 @@ while True:
         activate_led()
     except KeyboardInterrupt:
         exit_cleanup()
+        print("Camera and GPIO cleaned up.")
     except:
         sleep(0.1)
