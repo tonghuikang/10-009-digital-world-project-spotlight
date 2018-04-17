@@ -15,7 +15,7 @@ import paho.mqtt.client as mqttClient
 from time import sleep
 import RPi.GPIO as GPIO
 
-pins = [5, 22, 27, 17, 26, 19, 13, 6, 21, 20, 16, 12]
+pins = [5, 22, 27, 17]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(led_pin, GPIO.OUT)
@@ -24,20 +24,21 @@ GPIO.setup(led_pin, GPIO.OUT)
                            Part II: LED Operation
 ============================================================================'''
 #activate LEDs according to duty cycle assigned
-def activate_led(duty_list):
+def activate_led(pins, duty_list):
     print("Activating LEDs")
-    for i in range(len(pins)):
-        pwm_led = GPIO.PWM(pins[i], 50)
-        pwm_led.start(duty_list[i] * 100)
-    print("LEDs activated accordingly")
+    pwm = [GPIO.PWM(item, 50) for item in pins]
+    for i in range(len(pwm)):
+        pwm[i].start(duty_list[i] * 100)
+    print("LEDs activated accordingly: {}".format(duty_list))
     sleep(1)
 
+#activate LEDs upon receiving duty_list
 def on_message(client, userdata, message):
     received_data = str(message.payload.decode("utf-8"))
     print("Message received:", received_data)
     received_data_split = received_data.split(',')
     duty_list = [float(item) for item in received_data_split]
-    activate_led(duty_list)
+    activate_led(pins, duty_list)
 
 #setting up connection to Google Cloud
 broker_address="35.197.131.13"

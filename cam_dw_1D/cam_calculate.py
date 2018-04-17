@@ -145,9 +145,9 @@ class LED_coord:
 0  120 240 360 480 600
        
 LED no.    1   2   3   4   5   6   7   8   9   10  11  12'''
-led_x =   [120,240,360,480,120,240,360,480,120,240,360,480]
-led_y =   [112,112,112,112,225,225,225,225,338,338,338,338]
-led_list = [LED_coord(led_x[i], led_y[i]) for i in range(12)]
+led_x =   [120,480,120,480]
+led_y =   [112,112,338,338]
+led_list = [LED_coord(led_x[i], led_y[i]) for i in range(4)]
 
 '''======================================================= Reading text file'''
 #directory of text file receiving adj_list data
