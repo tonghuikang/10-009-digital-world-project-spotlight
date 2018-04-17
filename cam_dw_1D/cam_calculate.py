@@ -194,7 +194,7 @@ def decide_brightness():
     #publish duty_list to Google Cloud
     print('LED duty (published): {}'.format(duty_str))
     dw1d.publish("duty_list", duty_str)
-    dw1d.publihs("gpio_list", duty_str)
+    dw1d.publish("gpio_list", duty_str)
 
 '''============================================================================
            Part III: Actual Operation & Publishing to Google Cloud
