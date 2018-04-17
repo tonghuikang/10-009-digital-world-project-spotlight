@@ -9,9 +9,9 @@ GPIO.setup(pins, GPIO.OUT)
 #activate LEDs according to duty cycle assigned
 def activate_led(pins, duty_list):
     print("Activating LEDs")
-    for i in range(len(pins)):
-        pwm_led = GPIO.PWM(pins[i], 50)
-        pwm_led.start(duty_list[i] * 100)
+    pwm = [GPIO.PWM(item, 50) for item in pins]
+    for i in range(len(pwm)):
+        pwm[i].start(duty_list[i] * 100)
     print("LEDs activated accordingly: {}".format(duty_list))
     sleep(1)
 
