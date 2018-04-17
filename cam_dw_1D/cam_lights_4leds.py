@@ -139,7 +139,7 @@ class LED_coord:
 LED no.    1   2   3   4   5   6   7   8   9   10  11  12'''
 led_x =   [120,240,360,480]
 led_y =   [112,112,112,112]
-led_pin = [5,  22, 27, 17]
+led_pin = [5,  22, 27, 17 ]
 led_list = [LED_coord(led_x[i],led_y[i],led_pin[i]) for i in range(4)]
 
 '''======================================================= Reading text file'''
@@ -194,7 +194,9 @@ def activate_led():
     for led in led_list:   
         pwm_led = GPIO.PWM(led.pin, 50)
         pwm_led.start(led.duty)
+    print('Activated LEDs')
     sleep(1)
+    
 
 '''============================================================================
            Part III: Actual Operation & Publishing to Google Cloud
@@ -208,9 +210,11 @@ def on_connect(client, userdata, flags, rc):
          print("Connection failed")
 
 def exit_cleanup():
+    print("Cleaning camera and GPIO")
     cv2.destroyAllWindows()
     camera.stop()
     GPIO.cleanup()
+    print("Camera and GPIO cleaned up")
 
 #set up connection to Google Cloud
 Connected = False
@@ -224,15 +228,21 @@ print("Connecting to broker")
 dw1d.connect(broker_address, port=port)   #connect to broker
 
 #set up GPIO
-GPIO.setmode(GPIO.BOARD)
-for pin in led_pin:
-    GPIO.setup(pin, GPIO.OUT)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(led_pin, GPIO.OUT)
 
+while True:
+    decide_brightness()
+    activate_led()
+
+'''
 while True:
     try:
         decide_brightness()
         activate_led()
     except KeyboardInterrupt:
         exit_cleanup()
+        break
     except:
         sleep(0.1)
+'''

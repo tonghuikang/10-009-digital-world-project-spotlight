@@ -220,9 +220,11 @@ def on_connect(client, userdata, flags, rc):
          print("Connection failed")
 
 def exit_cleanup():
+    print("Cleaning camera and GPIO")
     cv2.destroyAllWindows()
     camera.stop()
     GPIO.cleanup()
+    print("Camera and GPIO cleaned up")
 
 #set up connection to Google Cloud
 Connected = False
@@ -245,6 +247,6 @@ while True:
         activate_led()
     except KeyboardInterrupt:
         exit_cleanup()
-        print("Camera and GPIO cleaned up.")
+        break
     except:
         sleep(0.1)
