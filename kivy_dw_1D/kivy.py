@@ -1,3 +1,17 @@
+#10.009 The Digital World 1D Project
+#17F04 Group 2
+
+''' KIVY APP SCRIPT '''
+'''
+This script takes in the duty_list from the 
+subscriber script, and runs the Kivy App.
+The Kivy App displays usage statistics, and 
+allows user input to manually adjust lighting levels.
+The input is then published to adjust the 
+actual LED lighting levels.
+'''
+#=============================================================================
+
 from kivy.app import App 
 
 from kivy.uix.gridlayout import GridLayout 
@@ -16,7 +30,7 @@ from firebase import firebase
 import paho.mqtt.client as mqtt
 
 url = "https://dw2018-1d-project.firebaseio.com/"
-secret = 'mwS8gxOh624P4fJ0FR1BUOTPEqFjIMkvnnOni9RL'
+secret = "mwS8gxOh624P4fJ0FR1BUOTPEqFjIMkvnnOni9RL"
 fire = firebase.FirebaseApplication(url, secret)
 
 from kivy.config import Config
@@ -49,7 +63,7 @@ Builder.load_string("""
                     ImageButton:
                         id: b0
                         source: "led-light.png"
-                        color: []
+                        color: [1,1,1,1]
                         on_press: root.current = "adj_0"
                     ImageButton:
                         id: b4
@@ -124,11 +138,11 @@ Builder.load_string("""
                 Label:
                     id: blank_stat_2
                 Label:
-                    id: stat_3
-                    text: "Usage"
+                    id: rt_globstat1_l00
+                    text: ""
                 Label:
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat2_l00
+                    text: ""
                 Button:
                     text: "Quit"
                     on_press: root.on_stop()
@@ -181,14 +195,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: rt_stat_i0
-                    text: "Usage" # root.get_rt_stat_i0()
+                    id: rt_localstat1_l0
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l0
+                    text: ""
+                Label:
+                    id: rt_globstat2_l0
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -241,14 +255,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l1
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l1
+                    text: ""
+                Label:
+                    id: rt_globstat2_l1
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -301,14 +315,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l2
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l2
+                    text: ""
+                Label:
+                    id: rt_globstat2_l2
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -361,14 +375,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l3
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l3
+                    text: ""
+                Label:
+                    id: rt_globstat2_l3
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -421,14 +435,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat_l4
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l4
+                    text: ""
+                Label:
+                    id: rt_globstat2_l4
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -481,14 +495,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l5
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l5
+                    text: ""
+                Label:
+                    id: rt_globstat2_l5
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -541,14 +555,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l6
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l6
+                    text: ""
+                Label:
+                    id: rt_globstat2_l6
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -599,14 +613,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l7
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l7
+                    text: ""
+                Label:
+                    id: rt_globstat2_l7
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -659,14 +673,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l8
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l8
+                    text: ""
+                Label:
+                    id: rt_globstat2_l8
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -719,14 +733,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l9
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l9
+                    text: ""
+                Label:
+                    id: rt_globstat2_l9
+                    text: ""
                 
                 Button:
                     text: "save settings"
@@ -779,14 +793,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l10
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l10
+                    text: ""
+                Label:
+                    id: rt_globstat2_l10
+                    text: ""
                     
                 Button:
                     text: "save settings"
@@ -839,14 +853,14 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: stat_2
-                    text: "Usage"
+                    id: rt_localstat1_l11
+                    text: ""
                 Label:
-                    id: stat_3
-                    text: "Usage"
-                Label: 
-                    id: stat_4
-                    text: "Usage"
+                    id: rt_globstat1_l11
+                    text: ""
+                Label:
+                    id: rt_globstat2_l11
+                    text: ""
                 Button:
                     text: "save settings"
                     on_release: root.send_adj_list()
@@ -855,23 +869,7 @@ Builder.load_string("""
 
 class screener(ScreenManager):
     
-# =============================================================================
-#     i0_ctrl = NumericProperty(1.0)
-#     i1_ctrl = NumericProperty(1.0)
-#     i2_ctrl = NumericProperty(1.0)
-#     i3_ctrl = NumericProperty(1.0)
-#     i4_ctrl = NumericProperty(1.0)
-#     i5_ctrl = NumericProperty(1.0)
-#     i6_ctrl = NumericProperty(1.0)
-#     i7_ctrl = NumericProperty(1.0)
-#     i8_ctrl = NumericProperty(1.0)
-#     i9_ctrl = NumericProperty(1.0)
-#     i10_ctrl = NumericProperty(1.0)
-#     i11_ctrl = NumericProperty(1.0)
-# =============================================================================
-    
     adj_list = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    
         
     def s0_func(self, *args):
         value = args[1]
@@ -944,10 +942,17 @@ class screener(ScreenManager):
             
     def my_callback(self, dt):
         try:
-            txt_f = open("/home/pi/Desktop/duty_list.txt", "r")
+            txt_f = open("/home/pi/thymio/kivy_dw_1D/duty_list.txt", "r")
             line = txt_f.readline()
             txt_f.close()
-            duty_val = line.split(",")
+            duty_val_raw = line.split(",")
+            """normalize 0 - 1 to 0.1 - 1"""
+            duty_val = []
+            for val in duty_val_raw:
+                new_val = float(val)*0.9 + 0.1
+                duty_val.append(new_val)
+            float_total = ( ( sum([float(x for x in duty_val_raw)]) / 12 ) * 100 )
+            
             self.ids.b0.color   = [1,1,1, (duty_val[0])]
             self.ids.i0.color   = [1,1,1, (duty_val[0])]
             self.ids.b1.color   = [1,1,1, (duty_val[1])]
@@ -972,12 +977,51 @@ class screener(ScreenManager):
             self.ids.i10.color  = [1,1,1, (duty_val[10])]
             self.ids.b11.color  = [1,1,1, (duty_val[11])]
             self.ids.i11.color  = [1,1,1, (duty_val[11])]
+            self.ids.rt_localstat1_l0.text   = "{}%".format(duty_val[0] * 100)
+            self.ids.rt_localstat1_l1.text   = "{}%".format(duty_val[1] * 100)
+            self.ids.rt_localstat1_l2.text   = "{}%".format(duty_val[2] * 100)
+            self.ids.rt_localstat1_l3.text   = "{}%".format(duty_val[3] * 100)
+            self.ids.rt_localstat1_l4.text   = "{}%".format(duty_val[4] * 100)
+            self.ids.rt_localstat1_l5.text   = "{}%".format(duty_val[5] * 100)
+            self.ids.rt_localstat1_l6.text   = "{}%".format(duty_val[6] * 100)
+            self.ids.rt_localstat1_l7.text   = "{}%".format(duty_val[7] * 100)
+            self.ids.rt_localstat1_l8.text   = "{}%".format(duty_val[8] * 100)
+            self.ids.rt_localstat1_l9.text   = "{}%".format(duty_val[9] * 100)
+            self.ids.rt_localstat1_l10.text  = "{}%".format(duty_val[10] * 100)
+            self.ids.rt_localstat1_l11.text  = "{}%".format(duty_val[11] * 100)
+            self.ids.rt_globalstat1_l00.text = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l0.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l1.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l2.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l3.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l4.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l5.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l6.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l7.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l8.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l9.text  = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l10.text = "{}%".format(float_total)
+            self.ids.rt_globalstat1_l11.text = "{}%".format(float_total)
+            self.ids.rt_globalstat2_l00.text = "{}".format(float_total)
+            self.ids.rt_globalstat2_l0.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l1.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l2.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l3.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l4.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l5.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l6.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l7.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l8.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l9.text  = "{}".format(float_total)
+            self.ids.rt_globalstat2_l10.text = "{}".format(float_total)
+            self.ids.rt_globalstat2_l11.text = "{}".format(float_total)
+            
         except:
             pass
 
     # Publishing
     def send_adj_list(self):
-        self.dw1d.publish("adj_list", str(self.adj_list))
+        self.dw1d.publish("adj_list", str(self.adj_list).strip('[]'))
         
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -997,12 +1041,6 @@ class screener(ScreenManager):
     dw1d.on_connect = on_connect
     print("Connecting to broker")
     dw1d.connect(broker_address, port=port)   #connect to broker
-
-# =============================================================================
-#     def get_rt_stat_i0(self):
-#         rt_stat = fire.get("/rt_stat_i0")
-#         self.ids.rt_stat_i0.text = "Saved: {}%".format(round(rt_stat,2))
-# =============================================================================
             
 class ImageButton(ButtonBehavior, Image):
     def __init__(self, **kwargs):
