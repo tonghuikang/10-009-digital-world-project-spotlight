@@ -12,7 +12,7 @@ actual LED lighting levels.
 '''
 #=============================================================================
 
-from kivy.app import App 
+from kivy.app import App
 
 from kivy.uix.gridlayout import GridLayout 
 from kivy.uix.boxlayout import BoxLayout
@@ -941,83 +941,83 @@ class screener(ScreenManager):
         App.get_running_app().stop()
             
     def my_callback(self, dt):
-        try:
-            txt_f = open("/home/pi/thymio/kivy_dw_1D/duty_list.txt", "r")
-            line = txt_f.readline()
-            txt_f.close()
-            duty_val_raw = line.split(",")
-            """normalize 0 - 1 to 0.1 - 1"""
-            duty_val = []
-            for val in duty_val_raw:
-                new_val = float(val)*0.9 + 0.1
-                duty_val.append(new_val)
-            float_total = ( ( sum([float(x for x in duty_val_raw)]) / 12 ) * 100 )
-            
-            self.ids.b0.color   = [1,1,1, (duty_val[0])]
-            self.ids.i0.color   = [1,1,1, (duty_val[0])]
-            self.ids.b1.color   = [1,1,1, (duty_val[1])]
-            self.ids.i1.color   = [1,1,1, (duty_val[1])]
-            self.ids.b2.color   = [1,1,1, (duty_val[2])]
-            self.ids.i2.color   = [1,1,1, (duty_val[2])]
-            self.ids.b3.color   = [1,1,1, (duty_val[3])]
-            self.ids.i3.color   = [1,1,1, (duty_val[3])]
-            self.ids.b4.color   = [1,1,1, (duty_val[4])]
-            self.ids.i4.color   = [1,1,1, (duty_val[4])]
-            self.ids.b5.color   = [1,1,1, (duty_val[5])]
-            self.ids.i5.color   = [1,1,1, (duty_val[5])]
-            self.ids.b6.color   = [1,1,1, (duty_val[6])]
-            self.ids.i6.color   = [1,1,1, (duty_val[6])]
-            self.ids.b7.color   = [1,1,1, (duty_val[7])]
-            self.ids.i7.color   = [1,1,1, (duty_val[7])]
-            self.ids.b8.color   = [1,1,1, (duty_val[8])]
-            self.ids.i8.color   = [1,1,1, (duty_val[8])]
-            self.ids.b9.color   = [1,1,1, (duty_val[9])]
-            self.ids.i9.color   = [1,1,1, (duty_val[9])]
-            self.ids.b10.color  = [1,1,1, (duty_val[10])]
-            self.ids.i10.color  = [1,1,1, (duty_val[10])]
-            self.ids.b11.color  = [1,1,1, (duty_val[11])]
-            self.ids.i11.color  = [1,1,1, (duty_val[11])]
-            self.ids.rt_localstat1_l0.text   = "{}%".format(duty_val[0] * 100)
-            self.ids.rt_localstat1_l1.text   = "{}%".format(duty_val[1] * 100)
-            self.ids.rt_localstat1_l2.text   = "{}%".format(duty_val[2] * 100)
-            self.ids.rt_localstat1_l3.text   = "{}%".format(duty_val[3] * 100)
-            self.ids.rt_localstat1_l4.text   = "{}%".format(duty_val[4] * 100)
-            self.ids.rt_localstat1_l5.text   = "{}%".format(duty_val[5] * 100)
-            self.ids.rt_localstat1_l6.text   = "{}%".format(duty_val[6] * 100)
-            self.ids.rt_localstat1_l7.text   = "{}%".format(duty_val[7] * 100)
-            self.ids.rt_localstat1_l8.text   = "{}%".format(duty_val[8] * 100)
-            self.ids.rt_localstat1_l9.text   = "{}%".format(duty_val[9] * 100)
-            self.ids.rt_localstat1_l10.text  = "{}%".format(duty_val[10] * 100)
-            self.ids.rt_localstat1_l11.text  = "{}%".format(duty_val[11] * 100)
-            self.ids.rt_globalstat1_l00.text = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l0.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l1.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l2.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l3.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l4.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l5.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l6.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l7.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l8.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l9.text  = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l10.text = "{}%".format(float_total)
-            self.ids.rt_globalstat1_l11.text = "{}%".format(float_total)
-            self.ids.rt_globalstat2_l00.text = "{}".format(float_total)
-            self.ids.rt_globalstat2_l0.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l1.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l2.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l3.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l4.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l5.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l6.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l7.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l8.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l9.text  = "{}".format(float_total)
-            self.ids.rt_globalstat2_l10.text = "{}".format(float_total)
-            self.ids.rt_globalstat2_l11.text = "{}".format(float_total)
-            
-        except:
-            pass
+    
+        txt_f = open("/home/pi/thymio/kivy_dw_1D/duty_list.txt", "r")
+        line = txt_f.readline()
+        txt_f.close()
+        duty_val = line.split(",")
+        """
+        normalize 0 - 1 to 0.1 - 1
+        duty_val = []
+        for val in duty_val_raw:
+            new_val = float(val)*0.9 + 0.1
+            duty_val.append(new_val)
+        float_total = ( ( sum([float(x for x in duty_val_raw)]) / 12 ) * 100 )
+        """
+        self.ids.b0.color   = [1,1,1, (duty_val[0])]
+        self.ids.i0.color   = [1,1,1, (duty_val[0])]
+        self.ids.b1.color   = [1,1,1, (duty_val[1])]
+        self.ids.i1.color   = [1,1,1, (duty_val[1])]
+        self.ids.b2.color   = [1,1,1, (duty_val[2])]
+        self.ids.i2.color   = [1,1,1, (duty_val[2])]
+        self.ids.b3.color   = [1,1,1, (duty_val[3])]
+        self.ids.i3.color   = [1,1,1, (duty_val[3])]
+        self.ids.b4.color   = [1,1,1, (duty_val[4])]
+        self.ids.i4.color   = [1,1,1, (duty_val[4])]
+        self.ids.b5.color   = [1,1,1, (duty_val[5])]
+        self.ids.i5.color   = [1,1,1, (duty_val[5])]
+        self.ids.b6.color   = [1,1,1, (duty_val[6])]
+        self.ids.i6.color   = [1,1,1, (duty_val[6])]
+        self.ids.b7.color   = [1,1,1, (duty_val[7])]
+        self.ids.i7.color   = [1,1,1, (duty_val[7])]
+        self.ids.b8.color   = [1,1,1, (duty_val[8])]
+        self.ids.i8.color   = [1,1,1, (duty_val[8])]
+        self.ids.b9.color   = [1,1,1, (duty_val[9])]
+        self.ids.i9.color   = [1,1,1, (duty_val[9])]
+        self.ids.b10.color  = [1,1,1, (duty_val[10])]
+        self.ids.i10.color  = [1,1,1, (duty_val[10])]
+        self.ids.b11.color  = [1,1,1, (duty_val[11])]
+        self.ids.i11.color  = [1,1,1, (duty_val[11])]
+        self.ids.rt_localstat1_l0.text   = "{}%".format(duty_val[0] * 100)
+        self.ids.rt_localstat1_l1.text   = "{}%".format(duty_val[1] * 100)
+        self.ids.rt_localstat1_l2.text   = "{}%".format(duty_val[2] * 100)
+        self.ids.rt_localstat1_l3.text   = "{}%".format(duty_val[3] * 100)
+        self.ids.rt_localstat1_l4.text   = "{}%".format(duty_val[4] * 100)
+        self.ids.rt_localstat1_l5.text   = "{}%".format(duty_val[5] * 100)
+        self.ids.rt_localstat1_l6.text   = "{}%".format(duty_val[6] * 100)
+        self.ids.rt_localstat1_l7.text   = "{}%".format(duty_val[7] * 100)
+        self.ids.rt_localstat1_l8.text   = "{}%".format(duty_val[8] * 100)
+        self.ids.rt_localstat1_l9.text   = "{}%".format(duty_val[9] * 100)
+        self.ids.rt_localstat1_l10.text  = "{}%".format(duty_val[10] * 100)
+        self.ids.rt_localstat1_l11.text  = "{}%".format(duty_val[11] * 100)
+        """
+        self.ids.rt_globalstat1_l00.text = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l0.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l1.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l2.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l3.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l4.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l5.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l6.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l7.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l8.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l9.text  = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l10.text = "{}%".format(float_total)
+        self.ids.rt_globalstat1_l11.text = "{}%".format(float_total)
+        self.ids.rt_globalstat2_l00.text = "{}".format(float_total)
+        self.ids.rt_globalstat2_l0.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l1.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l2.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l3.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l4.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l5.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l6.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l7.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l8.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l9.text  = "{}".format(float_total)
+        self.ids.rt_globalstat2_l10.text = "{}".format(float_total)
+        self.ids.rt_globalstat2_l11.text = "{}".format(float_total)
+        """    
 
     # Publishing
     def send_adj_list(self):
