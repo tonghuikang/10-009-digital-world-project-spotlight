@@ -1,14 +1,22 @@
 #10.009 The Digital World 1D Project
 #17F04 Group 2
 
-''' CAMERA & LED CALCULATION '''
+''' CAMERA & LIGHT CALCULATION '''
 '''
-This script reads the adj_list from the 
-adj_list_sub script and obtains the person's 
+This script reads the adj_list from 
+adj_list_sub.py and obtains the person's 
 position and the room brightness from the 
 camera. These parameters are then used to 
-activate the LEDs accordingly. The usage is 
-then published to be displayed on the Kivy app.
+calculate the required duty cycle of each 
+light and written as a string, duty_list. 
+This string is then published for activating 
+the lights via gpio_operator.py and for 
+displaying on the Kivy app via interface.py.
+
+The initial adj_list is not published when 
+the Kivy app is closed. To keep the lights 
+running as desired, adj_list is initialised 
+using the values on Firebase.
 '''
 #==============================================================================
 
@@ -23,6 +31,12 @@ import imutils
 from tlkh_camera import PiVideoStream
 import cv2
 from time import sleep
+from firebase import firebase
+
+#set up Firebase
+url = "https://dw2018-1d-project.firebaseio.com/"
+secret = 'mwS8gxOh624P4fJ0FR1BUOTPEqFjIMkvnnOni9RL'
+fire = firebase.FirebaseApplication(url, secret)
 
 #set up coordinate system for "person"
 class Target:
@@ -62,8 +76,6 @@ def get_obj_position_and_brightness():
     frame = imutils.resize(frame, width=600)
     # blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    #print(np.shape(hsv))
-    #print(np.sum(np.sum(hsv[:,:,2])))
     # construct a mask for the color "green", then perform
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
@@ -111,43 +123,44 @@ def get_obj_position_and_brightness():
 
             # otherwise, compute the thickness of the line and
             # draw the connecting lines
-            thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-            cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
+            thickness = int(np.sqrt(args["buffer"] / float(i+1)) * 2.5)
+            cv2.line(frame, pts[i-1], pts[i], (0, 0, 255), thickness)
 
-        # show the frame to our screen
+        # show the frame on screen
         #cv2.imshow("Frame", frame)
     
         person = Target(int(x), int(y))
         print('\nPerson is at {}; brightness is {:.2f}'.format(person, general_brightness))
         return person, general_brightness
 
-'''=============================================== Setting up the LED system'''
-#set up coordinate system for LEDs
-class LED_coord:
-    def __init__(self, x, y, userpref=0.8):
+'''============================================= Setting up the light system'''
+#set up coordinate system for lights
+class Light:
+    def __init__(self, x, y, adj=1):
         self.x = x
         self.y = y
-        self.userpref = userpref #user preference of LED's brightness (0-1)
-        self.dist = 0.           #distance from person
-        self.duty = 100          #duty cycle varying with brightness
+        self.adj = adj    #user preference of light's brightness (0-1)
+        self.dist = 0     #distance from person
+        self.duty = 100   #duty cycle varying with brightness
 
-#set LED coordinates
+#set light coordinates
 '''
-@-------------------+ 0     legend:
-|   |   |   |   |   |       @ - origin
-|--1#--2#--3#--4#---| 112   # - LED
-|   |   |   |   |   |       x - camera (600 x 450 px)
-|--5#--6#-x7#--8#---| 225
-|   |   |   |   |   |
-|--9#-10#-11#-12#---| 338
-|   |   |   |   |   |
-+-------------------+ 450
-0  120 240 360 480 600
-       
-LED no.    1   2   3   4   5   6   7   8   9   10  11  12'''
-led_x =   [120,480,120,480]
-led_y =   [112,112,338,338]
-led_list = [LED_coord(led_x[i], led_y[i]) for i in range(4)]
+@-----------------------+ 0      legend:
+|           |           |        @ - origin
+|     #1    |     #2    | 112    # - light
+|           |           |        x - camera (600 by 450 px)
+|-----------x-----------| 225
+|           |           |
+|     #3    |     #4    | 338
+|           |           |
++-----------------------+ 450
+0    150   300   450   600
+
+Light no.   1   2   3   4          '''
+light_x = [150,450,150,450]   #coordinates following diagram above
+light_y = [112,112,338,338]
+init_adj_list = fire.get("/adj_list")
+light_list = [Light(light_x[i], light_y[i], init_adj_list[i]) for i in range(4)]
 
 '''======================================================= Reading text file'''
 #directory of text file receiving adj_list data
@@ -161,38 +174,38 @@ def get_adj_list():
     return adj_list
 
 '''============================================================================
-                           Part II: LED Operation
+                         Part II: Light Duty Calculation
 ============================================================================'''
 
-#decide brightness of each LED
+#decide brightness of each light
 def decide_brightness():
     #obtain person's position, brightness, adj_list
     person, brightness = get_obj_position_and_brightness()
     adj_list = get_adj_list()
     
-    #alter base attribute of LEDs
-    for i in range(len(led_list)):
-        led_list[i].userpref = float(adj_list[i])
+    #alter base attribute of lights
+    for i in range(len(light_list)):
+        light_list[i].adj = float(adj_list[i])
     print('Adjustments: {}'.format(adj_list))
     
-    #determine duty cycle of LEDs
+    #determine duty cycle of lights
     duty_str = ''
-    for led in led_list:
+    for light in light_list:
         #alter dist attribute
-        led.dist = ( (person.x - led.x)**2 + (person.y - led.y)**2 )**0.5
+        light.dist = ( (person.x - light.x)**2 + (person.y - light.y)**2 )**0.5
         #alter duty attribute
-        power1 = (100 - brightness) * led.userpref  #factoring user pref
-        if led.dist < 165:    #--------------LED is at most diagonally adjacent
-            mult = ( (165 - led.dist) / 165 )**0.25
-            led.duty = power1 * mult
-            duty_str += '{:.4f},'.format(led.duty / 100)
-        else:    #---------------------------LED is too far away, do not use
-            led.duty = 0
+        power = (100 - brightness) * light.adj  #factoring user preference
+        if light.dist < 301:
+            mult = ( (301 - light.dist) / 301 )**0.25
+            light.duty = power * mult
+            duty_str += '{:.4f},'.format(light.duty / 100)
+        else:
+            light.duty = 0
             duty_str += '0,'
     duty_str = duty_str.rstrip(',') #remove extra comma
     
     #publish duty_list to Google Cloud
-    print('LED duty (published): {}'.format(duty_str))
+    print('Light duty (published): {}'.format(duty_str))
     dw1d.publish("duty_list", duty_str)
     dw1d.publish("gpio_list", duty_str)
 
