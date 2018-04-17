@@ -23,5 +23,7 @@ for i in range(len(duty_test)):
     activate_led(pins, duty_test[i])
 
 pwm = [GPIO.PWM(item, 50) for item in pins]
+for item in pwm:
+    item.stop()
 GPIO.cleanup()
 print("GPIO cleanup completed")
