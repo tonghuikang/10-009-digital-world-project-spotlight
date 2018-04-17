@@ -435,7 +435,7 @@ Builder.load_string("""
                     min: 0.
                     max: 1.
                 Label:
-                    id: rt_localstat_l4
+                    id: rt_localstat1_l4
                     text: ""
                 Label:
                     id: rt_globstat1_l4
@@ -922,7 +922,7 @@ class screener(ScreenManager):
     def set_adj_val(self):
         init_adj_list = fire.get("/adj_list")
         print(init_adj_list)
-        init_adj_list = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
+        #init_adj_list = [0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]
         self.ids.s0.value  = init_adj_list[0]
         self.ids.s1.value  = init_adj_list[1]
         self.ids.s2.value  = init_adj_list[2]
@@ -954,7 +954,7 @@ class screener(ScreenManager):
         for val in duty_val_raw:
             new_val = float(val)*0.9 + 0.1
             duty_val.append(new_val)
-        float_total = ( ( sum([float(x) for x in duty_val_raw]) / 12 ) * 100 )
+        float_total = ( ( sum(float(x) for x in duty_val_raw) / 12 ) * 100 )
         
         self.ids.b0.color   = [1,1,1, (duty_val[0])]
         self.ids.i0.color   = [1,1,1, (duty_val[0])]
@@ -993,7 +993,7 @@ class screener(ScreenManager):
         self.ids.rt_localstat1_l9.text   = "{}%".format(float(duty_val[9]) * 100)
         self.ids.rt_localstat1_l10.text  = "{}%".format(float(duty_val[10]) * 100)
         self.ids.rt_localstat1_l11.text  = "{}%".format(float(duty_val[11]) * 100)
-        
+        """
         self.ids.rt_globalstat1_l00.text = "{}%".format(float_total)
         self.ids.rt_globalstat1_l0.text  = "{}%".format(float_total)
         self.ids.rt_globalstat1_l1.text  = "{}%".format(float_total)
@@ -1020,6 +1020,7 @@ class screener(ScreenManager):
         self.ids.rt_globalstat2_l9.text  = "{}".format(float_total)
         self.ids.rt_globalstat2_l10.text = "{}".format(float_total)
         self.ids.rt_globalstat2_l11.text = "{}".format(float_total)
+        """
         
     # Publishing
     def send_adj_list(self):
