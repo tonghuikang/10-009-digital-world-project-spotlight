@@ -88,6 +88,7 @@ On the RPi meant for Kivy interface, run these Python script in order:
 `./kivy_dw_1D/duty_list_sub.py` to subscribe to a copy of the instructions the lights are receiving for display.
 `./kivy_dw_1D/interface.py` which is the kivy interface. It publishes to `adj_list` when the configurations are changed.
 
+When you are done setting up with your own firebase, obtain the secret key from the Firebase and update the secret on `./cam_dw_1D/adj_list_sub.py` and `cam_dw_1D/cam_calculate.py`.
 
 # Conclusion
 With these we are able to help users can save energy wasted on lighting up areas that the individual is not using, thus helping to reduce carbon emissions.
