@@ -208,6 +208,7 @@ def decide_brightness():
     print('Light duty (published): {}'.format(duty_str))
     dw1d.publish("duty_list", duty_str)
     dw1d.publish("gpio_list", duty_str)
+    sleep(1)
 
 '''============================================================================
            Part III: Actual Operation & Publishing to Google Cloud
