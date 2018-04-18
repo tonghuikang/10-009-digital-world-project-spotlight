@@ -63,10 +63,13 @@ With the presence and position of the person, the lights close to the person wil
 
 ## Kivy Interface
 `./kivy_dw_1D/`
-The user can adjust the brightness of individual lights based on his preferences. When the settings are finalised, the app will send the adjustment preference over the cloud to the change the brightness of the lights. 
+The user can adjust the brightness of individual lights based on his preferences, using a set of sliders corresponding to each light. When the settings are finalised, the app will send the adjustment preference over the cloud to the change the brightness of the lights. 
+
+## Firebase
+The Kivy interface needs to retain the slider settings previously set by the user after closing. On startup, the Kivy interface hence takes the slider settings from Firebase. Each time adjustment preferences are sent over the cloud, they are also sent to Firebase for long-term storage.
 
 # How to run these
-You need three RPi, one Linux-based cloud and a Firebase. Clone this repository into all four locations.
+You need three RPi, one Linux-based cloud and a Firebase database. Clone this repository into all four locations.
 
 On the cloud, set up the MQTT server according to this tutorial. You do not need to register a domain name, a static IP address is sufficient. https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-the-mosquitto-mqtt-messaging-broker-on-ubuntu-16-04. Use the included test code to check whether the publishing and subscription works - which need not be run during demostration. The cloud has to be online at the stipulated IP address, however, to facilitate communications.
 
