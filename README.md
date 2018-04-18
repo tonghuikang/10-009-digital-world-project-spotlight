@@ -57,7 +57,7 @@ Meanwhile, the RPi sends usage data for the user to visualise his usage, and als
 `./lights_dw_1D/`
 Dismantled LED torchlights are used to represent the room lights that are to be adjusted based on the position of the user. As RPi pins are never meant for the powering of electronics, we used a motor driver as a relay to power the torchlights. The torchlights are powered by a set of four AAA batteries on a battery holder instead.
 
-<div style="width:75%">![alt text](https://i.imgur.com/NvMlz3j.png "Lights")</div>
+![alt text](https://i.imgur.com/8sRxUAC.png "Lights")
 
 With the presence and position of the person, the lights close to the person will be lit up. The calculation is done on the camera nodes, this RPi executes the lighting instructions. We have a separate RPi for commanding the lights because taking the camera input is computationally intensive, and setting GPIO on PWN sometimes causes the Python script to terminate and it needs to be restarted without interfering with the camera.
 
