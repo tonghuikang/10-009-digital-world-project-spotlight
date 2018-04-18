@@ -336,10 +336,10 @@ class Screener(ScreenManager):
         self.ids.i3.color   = [1,1,1, (duty_val[3])]
         
         # updates current brightness of each light (local) being selected
-        self.ids.rt_localstat2_l0.text   = "Current Power Usage: {}%".format(float(duty_val[0]) * 100)
-        self.ids.rt_localstat2_l1.text   = "Current Power Usage: {}%".format(float(duty_val[1]) * 100)
-        self.ids.rt_localstat2_l2.text   = "Current Power Usage: {}%".format(float(duty_val[2]) * 100)
-        self.ids.rt_localstat2_l3.text   = "Current Power Usage: {}%".format(float(duty_val[3]) * 100)
+        self.ids.rt_localstat2_l0.text   = "Current Power Usage: {}%".format(round(float(duty_val[0]) * 100,2))
+        self.ids.rt_localstat2_l1.text   = "Current Power Usage: {}%".format(round(float(duty_val[1]) * 100,2))
+        self.ids.rt_localstat2_l2.text   = "Current Power Usage: {}%".format(round(float(duty_val[2]) * 100,2))
+        self.ids.rt_localstat2_l3.text   = "Current Power Usage: {}%".format(round(float(duty_val[3]) * 100,2))
         
         # updates total usage of the set-up (global) for all screens
         self.ids.rt_globstat1_l00.text = "Total Power Usage: {}%".format(float_total)
