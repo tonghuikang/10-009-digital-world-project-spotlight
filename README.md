@@ -11,32 +11,29 @@ Yip Jun Han
 # Assignment
 > Define the problem you wish to solve in making a smart green housing and neighbourhood. <BR>
 > Propose a solution to solve the problem and how the solution make use of the "smart"-ness of technology. The proposed solution must make use of GUI interface using Kivy. The proposed solution must make use of either Thymio or Raspberry-Pi or both. You can also make use all the components given in the starter kit for your prototype. The smartness of your solution should involve data analysis and prediction using regression and/or supervised classification (bonus point). <BR>
-Research on propose solutions and what are the components needed. Check whether it can work with the existing platform given (either Thymio or Raspberry-Pi). <BR>
+Research on proposed solutions and what components are needed. Check whether it can work with the existing platform given (either Thymio or Raspberry-Pi). <BR>
 > Plan items to purchase besides those given in a starter kit. Each group is given a claimable budget of $50.
 
 # Problem
-Lights are often left switched long after the users have left.
+Lights are often left switched on long after the users have left.
 Even when users are in, having only a few users in a relatively large room equates to wastage.
-In rooms with ample ambient lighting, the intensity of indoor lighting needed can be reduced.
+In rooms with ample ambient lighting, the required intensity of indoor lighting can be reduced.
 
 # Idea:
-Use an infrared (IR) camera to detect heat signatures and a visible light (VIS) camera to detect the brightness of the room.
-IR camera takes a thermal image every ten seconds
-If two consecutive images show our target at the same position (within threshold), activate VIS camera
-VIS camera takes one image
-Brightness at our target’s position is analysed to determine effect of ambient lighting
-Brightness of indoor lighting adjusted to minimise wastage
-Deactivate VIS camera; repeat
+Use a camera to detect the presence and motion of personnel
+General brightness of the room is analysed to determine effect of ambient lighting
+Target's position is used to determine which lights should be switched on
+Brightness of each light that is switched on is varied by room's general brightness and distance from target
+Minimised usage in terms of number of active lights and brightness of each light reduces wastage of electricity
+The brightness of each light can be modified based on user preferences via a GUI
 
 # Characteristics
-- Sustainable design – When our IR camera does not detect any changes to our target’s position, our VIS camera will not be switched on. Similarly, our IR camera itself will not be actuated perpetually, but on a 1:10 work-rest-cycle. 
+- Affordable design – Our camera is used for target acquisition and brightness analysis, both of which do not require high-resolution images. Hence, our choice of camera will reflect as such in our budget. 
 
-- Affordable design – Our IR and VIS cameras are used for target acquisition and brightness analysis, both of which do not require high-resolution images. Hence, our choice of camera will reflect as such in our budget. 
-
-- Smart design – When room users disagree with our programmed desired light settings, we receive feedback in the form of them manually toggling the brightness. These user data is recorded and analysed to recalibrate specific desired brightness by users of a particular room. 
+- Smart design – When room users disagree with our programmed desired light settings, we receive feedback in the form of them manually toggling the brightness. These user data is recorded and analysed to recalibrate specific desired brightness by users of a particular room.
 
 # Architecture
-The code resides and run on three Raspberry Pis (RPi), and communicates with a cloud MQTT server. One RPi receives camera input and identify the location of the individual and calculates instructions for the lights. Another RPi receives the instructions and controls the light. The last RPi allows the individual to remotely control his light preferences.
+The code resides and runs on three Raspberry Pis (RPi), and communicates with a cloud MQTT server. One RPi receives camera input and identify the location of the individual and calculates instructions for the lights. Another RPi receives the instructions and controls the light. The last RPi allows the individual to remotely control his light preferences.
 
 ![alt text](https://i.imgur.com/hFjt2NX.png "Archi")
 
@@ -62,7 +59,7 @@ Dismantled LED torchlights are used to represent the room lights that are to be 
 
 ![alt text](https://i.imgur.com/NvMlz3j.png "Lights")
 
-With the existence and position of the person, the lights close to the person will be light up. The calculation is done on the camera nodes, this RPi executes the lighting instructions. We have a separate RPi for commanding the lights because taking the camera input is computationally intensive, and setting GPIO on PWN sometimes causes the Python script to terminate and it needs to be restarted without interfering with the camera.
+With the presence and position of the person, the lights close to the person will be lit up. The calculation is done on the camera nodes, this RPi executes the lighting instructions. We have a separate RPi for commanding the lights because taking the camera input is computationally intensive, and setting GPIO on PWN sometimes causes the Python script to terminate and it needs to be restarted without interfering with the camera.
 
 ## Kivy Interface
 `./kivy_dw_1D/`
