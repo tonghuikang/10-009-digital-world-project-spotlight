@@ -1,5 +1,8 @@
 import subprocess
 import os
+from time import sleep
+
+sleep(10)
 
 while True:
     try:
