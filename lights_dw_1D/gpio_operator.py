@@ -1,40 +1,34 @@
 #10.009 The Digital World 1D Project
 #17F04 Group 2
 
-''' LED OPERATION VIA GPIO'''
+''' LIGHT OPERATION VIA GPIO'''
 '''
 This script receives duty_list from 
-cam_calculate.py and activates the LEDs 
-accordingly to produce the desired 
-brightness level. 
+cam_calculate.py and activates the 
+lights accordingly to produce the 
+desired brightness level. 
 '''
 #==============================================================================
 
-'''============================================================================
-                         Part I: Initialise program
-============================================================================'''
 import paho.mqtt.client as mqttClient
 from time import sleep
 import RPi.GPIO as GPIO
 
-pins = [5, 22, 27, 17]
+pins = [17, 22, 13, 21]
 
+GPIO.cleanup() #in case GPIO not cleaned before this
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pins, GPIO.OUT)
 
-'''============================================================================
-                           Part II: LED Operation
-============================================================================'''
-#activate LEDs according to duty cycle assigned
+#activate lights according to duty cycle assigned
 def activate_led(pin_list, duty_list):
-    print("Activating LEDs")
     pwm = [GPIO.PWM(item, 50) for item in pin_list]
     for i in range(len(pwm)):
         pwm[i].start(duty_list[i] * 100)
     print("LEDs activated accordingly: {}".format(duty_list))
-    sleep(1)
+    sleep(1.5)
 
-#activate LEDs upon receiving duty_list
+#activate lights upon receiving duty_list
 def on_message(client, userdata, message):
     received_data = str(message.payload.decode("utf-8"))
     print("Message received:", received_data)
@@ -54,11 +48,8 @@ dw1d.connect(broker_address, port=port)   #connect to broker
 
 #actual loop for receiving info
 dw1d.loop_start()
-print("Subscribed, waiting for message")
 dw1d.subscribe("gpio_list")
-sleep(100)
+sleep(100000)
 dw1d.loop_stop()
 
-print("Subscription ended")
 GPIO.cleanup()
-print("GPIO cleanup completed")
