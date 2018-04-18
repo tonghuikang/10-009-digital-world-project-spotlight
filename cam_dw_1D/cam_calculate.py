@@ -146,19 +146,19 @@ class Light:
 #set light coordinates
 '''
 @-----------------------+ 0      legend:
-|           |           |        @ - origin
-|     #1    |     #2    | 112    # - light
+|#1         |         2#|        @ - origin
+|           |           | 112    # - light
 |           |           |        x - camera (600 by 450 px)
 |-----------x-----------| 225
 |           |           |
-|     #3    |     #4    | 338
-|           |           |
+|           |           | 338
+|#3         |         4#|
 +-----------------------+ 450
 0    150   300   450   600
 
-Light no.   1   2   3   4          '''
-light_x = [150,450,150,450]   #coordinates following diagram above
-light_y = [112,112,338,338]
+Light no.  1   2   3   4          '''
+light_x = [0, 600, 0, 600]   #coordinates following diagram above
+light_y = [0,  0, 450,450]
 init_adj_list = fire.get("/adj_list")
 light_list = [Light(light_x[i], light_y[i], init_adj_list[i]) for i in range(4)]
 
@@ -195,8 +195,8 @@ def decide_brightness():
         light.dist = ( (person.x - light.x)**2 + (person.y - light.y)**2 )**0.5
         #alter duty attribute
         power = (100 - brightness) * light.adj  #factoring user preference
-        if light.dist < 301:
-            mult = ( (301 - light.dist) / 301 )**0.25
+        if light.dist < 376:
+            mult = ( (376 - light.dist) / 376 )**0.25
             light.duty = power * mult
             duty_str += '{:.4f},'.format(light.duty / 100)
         else:
