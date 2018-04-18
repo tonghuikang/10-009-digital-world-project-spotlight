@@ -57,13 +57,17 @@ Meanwhile, the RPi sends usage data for the user to visualise his usage, and als
 `./lights_dw_1D/`
 Dismantled LED torchlights are used to represent the room lights that are to be adjusted based on the position of the user. As RPi pins are never meant for the powering of electronics, we used a motor driver as a relay to power the torchlights. The torchlights are powered by a set of four AAA batteries on a battery holder instead.
 
-![alt text](https://i.imgur.com/NvMlz3j.png "Lights")
+<div style="width:75%">![alt text](https://i.imgur.com/NvMlz3j.png "Lights")</div>
 
 With the presence and position of the person, the lights close to the person will be lit up. The calculation is done on the camera nodes, this RPi executes the lighting instructions. We have a separate RPi for commanding the lights because taking the camera input is computationally intensive, and setting GPIO on PWN sometimes causes the Python script to terminate and it needs to be restarted without interfering with the camera.
 
 ## Kivy Interface
 `./kivy_dw_1D/`
-The user can adjust the brightness of individual lights based on his preferences, using a set of sliders corresponding to each light. When the settings are finalised, the app will send the adjustment preference over the cloud to the change the brightness of the lights. 
+The user can adjust the brightness of individual lights based on his preferences, using a set of sliders corresponding to each light. The interface constantly subscribe to a copy of the instructions to the lights, and the brightness of the lights are displayed on the GUI. 
+
+![alt text](https://i.imgur.com/PEAWeuD.png "Kivy")
+
+When the settings are finalised, the app will send the adjustment preference over the cloud to the change the brightness of the lights. 
 
 ## Firebase
 The Kivy interface needs to retain the slider settings previously set by the user after closing. On startup, the Kivy interface hence takes the slider settings from Firebase. Each time adjustment preferences are sent over the cloud, they are also sent to Firebase for long-term storage.
