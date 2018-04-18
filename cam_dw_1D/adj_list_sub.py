@@ -11,7 +11,7 @@ is also sent to Firebase to retain the settings
 when the Kivy app is reopened.
 '''
 #directory of text file receiving adj_list data
-txt = '/home/pi/Desktop/adjlist.txt'
+txt = '/home/pi/thymio/cam_dw_1D/adj_list.txt'
 
 #import statements
 import paho.mqtt.client as mqttClient #import the client for Google cloud
