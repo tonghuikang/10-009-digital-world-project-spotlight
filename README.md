@@ -19,13 +19,13 @@ Lights are often left switched on long after the users have left.
 Even when users are in, having only a few users in a relatively large room equates to wastage.
 In rooms with ample ambient lighting, the required intensity of indoor lighting can be reduced.
 
-# Idea:
-Use a camera to detect the presence and motion of personnel
-General brightness of the room is analysed to determine effect of ambient lighting
-Target's position is used to determine which lights should be switched on
-Brightness of each light that is switched on is varied by room's general brightness and distance from target
-Minimised usage in terms of number of active lights and brightness of each light reduces wastage of electricity
-The brightness of each light can be modified based on user preferences via a GUI
+# Idea
+- Use a camera to detect the presence and motion of personnel
+- General brightness of the room is analysed to determine effect of ambient lighting
+- Target's position is used to determine which lights should be switched on
+- Brightness of each light that is switched on is varied by room's general brightness and distance from target
+- Minimised usage in terms of number of active lights and brightness of each light reduces wastage of electricity
+- The brightness of each light can be modified based on user preferences via a GUI
 
 # Characteristics
 - Affordable design – Our camera is used for target acquisition and brightness analysis, both of which do not require high-resolution images. Hence, our choice of camera will reflect as such in our budget. 
