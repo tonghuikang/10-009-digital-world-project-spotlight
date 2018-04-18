@@ -26,6 +26,7 @@ def activate_led(pin_list, duty_list):
     for i in range(len(pwm)):
         pwm[i].start(duty_list[i] * 100)
     print("LEDs activated accordingly: {}".format(duty_list))
+    sleep(1)
 
 #activate lights upon receiving duty_list
 def on_message(client, userdata, message):
