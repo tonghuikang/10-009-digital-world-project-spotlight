@@ -41,7 +41,7 @@ The code resides and runs on three Raspberry Pis (RPi), and communicates with a 
 `./cloud_dw_1D/`
 The cloud server hosts the communication between the user and the appliance. We preferred to use MQTT's publisher-subscriber system instead of FireBase because we require instant response between the user and the appliance.
 
-Our server is hosted by Google Cloud Platform. The cloud runs on Ubuntu 16.04 and has an IP address assigned by Google Cloud. We followed this tutorial to set up an MQTT server (https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-the-mosquitto-mqtt-messaging-broker-on-ubuntu-16-04). 
+Our server is hosted by Google Cloud Platform. The cloud runs on Ubuntu 16.04 and has an IP address assigned by Google Cloud. 
 
 The folder contains sample code to test whether publishing and subscribing works.
 
@@ -65,5 +65,23 @@ With the presence and position of the person, the lights close to the person wil
 `./kivy_dw_1D/`
 The user can adjust the brightness of individual lights based on his preferences. When the settings are finalised, the app will send the adjustment preference over the cloud to the change the brightness of the lights. 
 
+# How to run these
+You need three RPi, one Linux-based cloud and a Firebase. Clone this repository into all four locations.
+
+On the cloud, set up the MQTT server according to this tutorial. You do not need to register a domain name, a static IP address is sufficient. https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-the-mosquitto-mqtt-messaging-broker-on-ubuntu-16-04. Use the included test code to check whether the publishing and subscription works - which need not be run during demostration. The cloud has to be online at the stipulated IP address, however, to facilitate communications.
+
+On the RPi with camera, connect an RPi camera. Run two Python scripts: 
+`./cam_dw_1D/cam_calculate.py` for inetracting with the camera.
+`./cam_dw_1D/adj_list_sub.py` for subsciption to `adj_list`, which updates `adj_list.txt` that is periodically read by `cam_calculate.py`
+
+On the RPi with the lights, connect four lights. Drivers are recommended to avoid running large current through the RPi. You can use `./lights_dw_1D/lights_test.py` to test the lights. Run this python script:
+`./lights_dw_1D/call.py` which runs `gpio_operator.py` and re-runs it terminates for any reason.
+
+On the RPi meant for Kivy interface, run these Python script in order:
+`./kivy_dw_1D/duty_list_sub.py` to subscribe to a copy of the instructions the lights are receiving for display.
+`./kivy_dw_1D/interface.py` which is the kivy interface. It publishes to `adj_list` when the configurations are changed.
+
+
 # Conclusion
 With these we are able to help users can save energy wasted on lighting up areas that the individual is not using, thus helping to reduce carbon emissions.
+
