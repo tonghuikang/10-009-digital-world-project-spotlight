@@ -164,14 +164,14 @@ Builder.load_string("""
                     rows: 2
                     orientation: "vertical"
                     Label:
+                    Label:
+                BoxLayout:
+                    rows: 2
+                    orientation: "vertical"
                     Image:
                         id: i1
                         source: "light.png"
                         color: [1,1,1,1]
-                BoxLayout:
-                    rows: 2
-                    orientation: "vertical"
-                    Label:
                     Label:
         
             BoxLayout:
@@ -209,14 +209,14 @@ Builder.load_string("""
                     rows: 2
                     orientation: "vertical"
                     Label:
-                    Label:
-                BoxLayout:
-                    rows: 2
-                    orientation: "vertical"
                     Image:
                         id: i2
                         source: "light.png"
                         color: [1,1,1,1]
+                BoxLayout:
+                    rows: 2
+                    orientation: "vertical"
+                    Label:
                     Label:
         
             BoxLayout:
