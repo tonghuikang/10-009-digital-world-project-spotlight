@@ -2,10 +2,10 @@ import subprocess
 import os
 from time import sleep
 
-sleep(10)
+sleep(2)
 
 while True:
     try:
-        os.system('python /home/pi/thymio/lights_dw_1D/startup.py')
+        os.system('python /home/pi/thymio/lights_dw_1D/gpio_operator.py')
     except:
         pass
