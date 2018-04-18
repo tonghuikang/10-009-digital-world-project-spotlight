@@ -19,12 +19,14 @@ pins = [17, 22, 13, 21]
 GPIO.cleanup() #in case GPIO not cleaned before this
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pins, GPIO.OUT)
+pwm = [GPIO.PWM(item, 50) for item in pins]
+for item in pwm:
+    item.start(0)
 
 #activate lights according to duty cycle assigned
-def activate_led(pin_list, duty_list):
-    pwm = [GPIO.PWM(item, 50) for item in pin_list]
+def activate_led(duty_list):
     for i in range(len(pwm)):
-        pwm[i].start(duty_list[i] * 100)
+        pwm[i].ChangeDutyCycle(duty_list[i]*100)
     print("LEDs activated accordingly: {}".format(duty_list))
     sleep(1)
 
@@ -34,7 +36,7 @@ def on_message(client, userdata, message):
     print("Message received:", received_data)
     received_data_split = received_data.split(',')
     duty_list = [float(item) for item in received_data_split]
-    activate_led(pins, duty_list)
+    activate_led(duty_list)
 
 #setting up connection to Google Cloud
 broker_address="35.197.131.13"
