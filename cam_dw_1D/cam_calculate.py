@@ -164,7 +164,7 @@ light_list = [Light(light_x[i], light_y[i], init_adj_list[i]) for i in range(4)]
 
 '''======================================================= Reading text file'''
 #directory of text file receiving adj_list data
-txt = '/home/pi/Desktop/adjlist.txt'
+txt = '/home/pi/thymio/cam_dw_1D/adj_list.txt'
 
 def get_adj_list():
     f = open(txt, 'r')
