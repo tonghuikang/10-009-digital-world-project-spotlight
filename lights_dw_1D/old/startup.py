@@ -21,13 +21,10 @@ def activate_led(pin_list, duty_list):
 
 while True:
     try:
-        activate_led(pins, [1.0, 0.9, 0.5, 1.0])
-        activate_led(pins, [0.0, 1.0, 0.8, 1.0])
-        activate_led(pins, [0.8, 0.0, 1.0, 0.8])
-        activate_led(pins, [0.7, 0.6, 0.7, 0.0])
-        activate_led(pins, [0.6, 0.5, 0.0, 1.0])
-        activate_led(pins, [0.0, 0.4, 1.0, 0.9])
-        activate_led(pins, [0.4, 0.3, 0.9, 1.0])
+        activate_led(pins, [1.0, 0.0, 0.5, 0.0])
+        activate_led(pins, [0.0, 1.0, 0.0, 0.5])
+        activate_led(pins, [0.5, 0.0, 1.0, 0.0])
+        activate_led(pins, [0.0, 0.5, 0.0, 1.0])
     except KeyboardInterrupt:
         print("keyboard interrupt")
         break
