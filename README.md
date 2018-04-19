@@ -37,6 +37,8 @@ The code resides and runs on three Raspberry Pis (RPi), and communicates with a 
 
 ![alt text](https://i.imgur.com/hFjt2NX.png "Archi")
 
+![alt text](https://i.imgur.com/13DbAX6.jpg "Hardware")
+
 ## Cloud Server
 `./cloud_dw_1D/`
 The cloud server hosts the communication between the user and the appliance. We preferred to use MQTT's publisher-subscriber system instead of FireBase because we require instant response between the user and the appliance.
